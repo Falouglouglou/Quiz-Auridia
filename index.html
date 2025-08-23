@@ -1,225 +1,515 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Test Auridia</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Carmine vs Siames</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #111;
+      background: #111;
       color: #eee;
+      margin: 0;
+      padding: 0;
       text-align: center;
-      padding: 20px;
     }
-    #intro {
-      margin-top: 100px;
-      animation: fadeIn 1s;
+
+    .intro {
+      padding: 50px 20px;
     }
-    #intro h1 {
-      font-size: 2em;
+
+    .intro h1 {
+      font-size: 2.5em;
       margin-bottom: 20px;
     }
-    #intro p {
-      font-size: 1.1em;
+
+    .intro p {
+      font-size: 1.2em;
       margin-bottom: 30px;
     }
-    .btn {
-      background-color: #444;
-      color: #fff;
-      border: none;
+
+    .intro button {
       padding: 15px 30px;
+      font-size: 1.2em;
+      border: none;
       border-radius: 8px;
-      font-size: 1.1em;
       cursor: pointer;
-      transition: all 0.3s ease;
+      background: linear-gradient(90deg, #b22222, #6a0dad);
+      color: #fff;
+      transition: transform 0.2s;
     }
-    .btn:hover {
-      background-color: #666;
+
+    .intro button:hover {
       transform: scale(1.05);
     }
-    .carmine {
-      color: #e63946;
-      font-weight: bold;
-    }
-    .siames {
-      color: #8a2be2;
-      font-weight: bold;
-    }
-    #quiz {
+
+    .quiz {
       display: none;
-      max-width: 600px;
-      margin: auto;
-      margin-top: 50px;
-      background: #222;
       padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      animation: fadeIn 1s;
+      max-width: 800px;
+      margin: auto;
     }
-    #answers {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-top: 20px;
-      animation: fadeIn 1s;
-    }
-    .answer-btn {
-      background: #333;
-      color: white;
-      padding: 15px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 1em;
-      transition: 0.3s;
+
+    .balance-bar {
       width: 100%;
+      height: 25px;
+      background: #333;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      display: flex;
     }
-    .answer-btn:hover {
-      background: #555;
-      transform: scale(1.02);
+
+    .balance-carmine {
+      background: #b22222;
+      height: 100%;
+      width: 50%;
+      transition: width 0.5s;
     }
-    .answer-btn.selected {
-      background: #666;
-      border: 2px solid #fff;
+
+    .balance-siames {
+      background: #6a0dad;
+      height: 100%;
+      width: 50%;
+      transition: width 0.5s;
     }
-    #nextBtn {
-      margin-top: 25px;
-      padding: 12px 25px;
-      border: none;
-      background: #444;
-      color: white;
+
+    .question {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .answer {
+      background: #222;
+      padding: 15px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 1em;
-      transition: 0.3s;
+      transition: background 0.3s, transform 0.2s;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
-    #nextBtn:hover {
+
+    .answer:hover {
+      background: #333;
+      transform: scale(1.03);
+    }
+
+    .answer.selected {
+      border: 2px solid #fff;
+      background: #444;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #444;
+      color: #fff;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
       background: #666;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    .result {
+      font-size: 1.5em;
+      margin-top: 30px;
+    }
+
+    .carmine {
+      color: #b22222;
+      font-weight: bold;
+    }
+
+    .siames {
+      color: #6a0dad;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-
-  <!-- Page d'intro -->
-  <div id="intro">
-    <h1>Bienvenue dans le Test Auridia</h1>
-    <p>
-      Ce quiz va te plonger dans l’univers des mafias d’Auridia.<br>
-      Réponds aux questions et découvre à quelle famille tu appartiens :
-      <span class="carmine">Carmine 🔴</span> ou <span class="siames">Siames 🟣</span>.
-    </p>
-    <button class="btn" onclick="startQuiz()">Commencer le test</button>
+  <!-- PAGE D’INTRO -->
+  <div class="intro" id="intro">
+    <h1>Découvre ton camp</h1>
+    <p>Ce test te révélera si ton cœur appartient aux <span class="carmine">Carmine</span> ou aux <span class="siames">Siames</span>. Réponds honnêtement aux questions pour découvrir ton destin...</p>
+    <button onclick="startQuiz()">Commencer le test</button>
   </div>
 
-  <!-- Quiz -->
-  <div id="quiz">
-    <h2 id="question"></h2>
-    <div id="answers"></div>
-    <button onclick="nextQuestion()" id="nextBtn" style="display:none;">Suivant</button>
-    <div id="result" style="margin-top:20px;font-size:1.2em;"></div>
+  <!-- QUIZ -->
+  <div class="quiz" id="quiz">
+    <div class="balance-bar">
+      <div class="balance-carmine" id="carmineBar"></div>
+      <div class="balance-siames" id="siamesBar"></div>
+    </div>
+    <div id="question-container">
+      <div class="question" id="question"></div>
+      <div class="answers" id="answers"></div>
+      <button onclick="nextQuestion()">Suivant</button>
+    </div>
+    <div class="result" id="result"></div>
   </div>
 
   <script>
-    const questions = [
-      {
-        text: "Quand tu fais face à un problème, quelle est ta première réaction ?",
-        answers: [
-          { text: "Agir vite, quitte à foncer dans le tas", mafia: "carmine" },
-          { text: "Réfléchir à une stratégie avant d’agir", mafia: "siames" },
-          { text: "Chercher de l’aide auprès de mes proches", mafia: "siames" },
-          { text: "J’improvise, peu importe les conséquences", mafia: "carmine" }
-        ]
-      },
-      {
-        text: "Quelle valeur te parle le plus ?",
-        answers: [
-          { text: "La loyauté avant tout", mafia: "siames" },
-          { text: "Le pouvoir et le respect", mafia: "carmine" },
-          { text: "La discrétion et l’efficacité", mafia: "siames" },
-          { text: "La domination par la force", mafia: "carmine" }
-        ]
-      },
-      {
-        text: "Une trahison dans ton clan : comment réagis-tu ?",
-        answers: [
-          { text: "Sanction immédiate, sans pitié", mafia: "carmine" },
-          { text: "Analyser les raisons avant d’agir", mafia: "siames" },
-          { text: "Protéger d’abord les innocents avant de décider", mafia: "siames" },
-          { text: "Faire un exemple pour inspirer la peur", mafia: "carmine" }
-        ]
-      },
-      {
-        text: "Tu as un rendez-vous important : comment t’habilles-tu ?",
-        answers: [
-          { text: "Classe, costume sombre impeccable", mafia: "carmine" },
-          { text: "Sobre mais élégant, rien de tape-à-l’œil", mafia: "siames" },
-          { text: "Peu importe, l’important c’est le fond", mafia: "siames" },
-          { text: "Tout pour impressionner, quitte à en faire trop", mafia: "carmine" }
-        ]
-      },
-      {
-        text: "Tu es en soirée : quel est ton rôle ?",
-        answers: [
-          { text: "Celui qui attire l’attention, centre de la fête", mafia: "carmine" },
-          { text: "L’organisateur discret qui veille sur tout le monde", mafia: "siames" },
-          { text: "Celui qui écoute et observe les autres", mafia: "siames" },
-          { text: "Le boute-en-train qui entraîne tout le monde dans ses délires", mafia: "carmine" }
-        ]
-      },
-      {
-        text: "Quel type de film préfères-tu ?",
-        answers: [
-          { text: "Les films de gangsters violents et directs", mafia: "carmine" },
-          { text: "Les thrillers psychologiques pleins de stratégie", mafia: "siames" },
-          { text: "Les drames familiaux où la loyauté est mise à l’épreuve", mafia: "siames" },
-          { text: "Les blockbusters explosifs et sans réflexion", mafia: "carmine" }
-        ]
-      }
-    ];
+    const intro = document.getElementById("intro");
+    const quiz = document.getElementById("quiz");
+    const questionEl = document.getElementById("question");
+    const answersEl = document.getElementById("answers");
+    const resultEl = document.getElementById("result");
+    const carmineBar = document.getElementById("carmineBar");
+    const siamesBar = document.getElementById("siamesBar");
 
     let currentQuestion = 0;
-    let scores = { carmine: 0, siames: 0 };
-    let selectedButton = null;
+    let carmineScore = 0;
+    let siamesScore = 0;
+    let selectedAnswer = null;
+
+    const questions = [
+      {
+        question: "En cas de conflit, ton premier réflexe est :",
+        answers: [
+          { text: "Foncer dans le tas, mieux vaut régler ça vite et fort.", camp: "Carmine" },
+          { text: "Observer la situation avant de prendre une décision.", camp: "Siames" },
+          { text: "Chercher un compromis rapide pour ne pas perdre de temps.", camp: "Neutre" }
+        ]
+      },
+      {
+    text: `1. En cas de conflit, ton premier réflexe est :`,
+    answers: [
+      { text: `Foncer dans le tas, mieux vaut régler ça vite et fort.`, mafia: 'carmine' },
+      { text: `Observer la situation avant de prendre une décision.`, mafia: 'siames' },
+      { text: `Chercher un compromis rapide pour ne pas perdre de temps.`, mafia: 'siames' },
+    ],
+  },
+  {
+    text: `2. Quelle valeur est la plus importante pour toi ?`,
+    answers: [
+      { text: `Le respect par la force.`, mafia: 'carmine' },
+      { text: `La loyauté de ceux qui t’entourent.`, mafia: 'siames' },
+      { text: `L’efficacité, peu importe les moyens.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `3. Face à un problème d’argent, ta solution idéale :`,
+    answers: [
+      { text: `Prendre de force ce dont j’ai besoin.`, mafia: 'carmine' },
+      { text: `Monter un plan sur le long terme, quitte à patienter.`, mafia: 'siames' },
+      { text: `Miser sur mes relations et mes contacts pour trouver une solution.`, mafia: 'siames' },
+      { text: `Jouer un coup risqué : la chance sourit aux audacieux.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `4. Dans une organisation, quel rôle t’attire le plus ?`,
+    answers: [
+      { text: `Celui qui impose le respect par sa présence et son autorité.`, mafia: 'carmine' },
+      { text: `Celui qui tire les ficelles discrètement dans l’ombre.`, mafia: 'siames' },
+      { text: `Celui qui protège la famille, prêt à tout pour eux.`, mafia: 'siames' },
+      { text: `Celui qui prend des risques et fait le sale boulot.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `5. Si un ennemi touche à un proche, tu…`,
+    answers: [
+      { text: `Cherches immédiatement à te venger, sans réfléchir.`, mafia: 'carmine' },
+      { text: `Organises une riposte calculée pour ne pas mettre les tiens en danger.`, mafia: 'siames' },
+      { text: `Utilises la ruse pour l’affaiblir sans qu’il le voie venir.`, mafia: 'siames' },
+      { text: `Fais un exemple brutal pour que plus personne n’ose recommencer.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `6. Quelle est ta vision de la violence ?`,
+    answers: [
+      { text: `Un outil nécessaire, pas plus.`, mafia: 'siames' },
+      { text: `La meilleure façon de se faire respecter.`, mafia: 'carmine' },
+      { text: `Une arme qu’il faut manier intelligemment.`, mafia: 'siames' },
+      { text: `Un plaisir presque cathartique.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `7. Comment aimerais-tu que les autres te voient ?`,
+    answers: [
+      { text: `Comme quelqu’un de craint et respecté.`, mafia: 'carmine' },
+      { text: `Comme un protecteur loyal.`, mafia: 'siames' },
+      { text: `Comme un stratège malin.`, mafia: 'siames' },
+      { text: `Comme un meneur audacieux.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `8. Si tu dois gérer une trahison dans ton clan :`,
+    answers: [
+      { text: `Exécuter le traître sur-le-champ, pour l’exemple.`, mafia: 'carmine' },
+      { text: `Chercher à comprendre ses motivations avant d’agir.`, mafia: 'siames' },
+      { text: `L’éloigner discrètement, pour éviter le scandale.`, mafia: 'siames' },
+      { text: `Le torturer publiquement, pour dissuader les autres.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `9. Quelle stratégie adoptes-tu dans une guerre de territoire ?`,
+    answers: [
+      { text: `Prendre les zones par la force, rapidement.`, mafia: 'carmine' },
+      { text: `Avancer doucement mais sûrement, en consolidant chaque pas.`, mafia: 'siames' },
+      { text: `Jouer sur les alliances et la manipulation pour diviser l’ennemi.`, mafia: 'siames' },
+      { text: `Tout miser sur un coup spectaculaire qui fera peur à tous.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `10. Quelle phrase pourrait te représenter ?`,
+    answers: [
+      { text: `« La peur est la meilleure des armes. »`, mafia: 'carmine' },
+      { text: `« Seul, on va vite. Ensemble, on va loin. »`, mafia: 'siames' },
+      { text: `« Un coup bien préparé vaut mille coups précipités. »`, mafia: 'siames' },
+      { text: `« On se souviendra toujours de celui qui frappe le plus fort. »`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `11. Dans un jeu, quel rôle prends-tu le plus souvent ?`,
+    answers: [
+      { text: `Le guerrier qui fonce tête baissée.`, mafia: 'carmine' },
+      { text: `Le stratège qui planifie et soutient l’équipe.`, mafia: 'siames' },
+      { text: `Le leader charismatique qui motive les autres.`, mafia: 'carmine' },
+      { text: `Le protecteur qui veille sur ses alliés.`, mafia: 'siames' },
+    ],
+  },
+  {
+    text: `12. Quand tu es en colère, tu as tendance à…`,
+    answers: [
+      { text: `Exploser sans réfléchir, ça doit sortir.`, mafia: 'carmine' },
+      { text: `Te taire et ruminer avant d’agir.`, mafia: 'siames' },
+      { text: `Utiliser ta colère comme carburant pour avancer.`, mafia: 'carmine' },
+      { text: `Chercher à canaliser tes émotions pour rester maître de toi.`, mafia: 'siames' },
+    ],
+  },
+  {
+    text: `13. Quel environnement te correspond le mieux ?`,
+    answers: [
+      { text: `Une grande fête bruyante où tout le monde me remarque.`, mafia: 'carmine' },
+      { text: `Une réunion tranquille entre proches de confiance.`, mafia: 'siames' },
+      { text: `Un endroit neutre où je peux observer sans être dérangé.`, mafia: 'siames' },
+      { text: `Une scène publique où je peux imposer ma présence.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `14. Ton rapport au temps ?`,
+    answers: [
+      { text: `« Le plus vite, le mieux. »`, mafia: 'carmine' },
+      { text: `« Chaque chose en son temps. »`, mafia: 'siames' },
+      { text: `« Il faut parfois patienter pour tout rafler. »`, mafia: 'siames' },
+      { text: `« L’instant présent est tout ce qui compte. »`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `15. Quel animal te ressemble le plus ?`,
+    answers: [
+      { text: `Le lion, qui règne par sa force.`, mafia: 'carmine' },
+      { text: `Le loup, qui vit et agit pour sa meute.`, mafia: 'siames' },
+      { text: `Le renard, discret mais rusé.`, mafia: 'siames' },
+      { text: `Le taureau, qui charge quand il est provoqué.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `16. Quelle qualité te définit le mieux ?`,
+    answers: [
+      { text: `Le courage.`, mafia: 'carmine' },
+      { text: `La loyauté.`, mafia: 'siames' },
+      { text: `La patience.`, mafia: 'siames' },
+      { text: `L’audace.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `17. Comment réagis-tu face à l’injustice ?`,
+    answers: [
+      { text: `Je rends coup pour coup, immédiatement.`, mafia: 'carmine' },
+      { text: `J’analyse la situation pour trouver la meilleure riposte.`, mafia: 'siames' },
+      { text: `Je rassemble les miens pour faire front ensemble.`, mafia: 'siames' },
+      { text: `Je fais un exemple pour que ça n’arrive plus jamais.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `18. Quel type de leader t’inspire le plus ?`,
+    answers: [
+      { text: `Celui qui impose par la peur.`, mafia: 'carmine' },
+      { text: `Celui qui guide par l’exemple et la loyauté.`, mafia: 'siames' },
+      { text: `Celui qui manipule habilement sans qu’on s’en aperçoive.`, mafia: 'siames' },
+      { text: `Celui qui prend les risques à la place des autres.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `19. Comment préfères-tu régler un problème personnel ?`,
+    answers: [
+      { text: `En frappant fort pour en finir.`, mafia: 'carmine' },
+      { text: `En réfléchissant à la solution la plus durable.`, mafia: 'siames' },
+      { text: `En demandant conseil à ceux en qui j’ai confiance.`, mafia: 'siames' },
+      { text: `En prenant une décision rapide sans me retourner.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `20. Quelle devise te parle le plus ?`,
+    answers: [
+      { text: `« Qui ose, gagne. »`, mafia: 'carmine' },
+      { text: `« L’union fait la force. »`, mafia: 'siames' },
+      { text: `« Le silence est une arme. »`, mafia: 'siames' },
+      { text: `« La fin justifie les moyens. »`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `21. Tu dois choisir une boisson pour la soirée :`,
+    answers: [
+      { text: `Un whisky sec, sans chichis.`, mafia: 'carmine' },
+      { text: `Un cocktail bien préparé, subtil et raffiné.`, mafia: 'siames' },
+      { text: `Une bière fraîche à partager entre amis.`, mafia: 'siames' },
+      { text: `Un shot qui brûle la gorge, juste pour montrer que tu tiens.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `22. Face à une règle injuste, tu…`,
+    answers: [
+      { text: `La brises sans hésiter, je fais ma loi.`, mafia: 'carmine' },
+      { text: `Cherches une faille pour la contourner intelligemment.`, mafia: 'siames' },
+      { text: `Essaies de rassembler les autres pour la changer.`, mafia: 'siames' },
+      { text: `Défies ouvertement l’autorité pour prouver ma force.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `23. Ton style vestimentaire idéal :`,
+    answers: [
+      { text: `Classe, costume, montre clinquante.`, mafia: 'carmine' },
+      { text: `Simple mais soigné, je préfère passer inaperçu.`, mafia: 'siames' },
+      { text: `Décontracté, l’important c’est d’être à l’aise.`, mafia: 'siames' },
+      { text: `Tape-à-l’œil, il faut que tout le monde me remarque.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `24. Si tu devais choisir un film préféré :`,
+    answers: [
+      { text: `Un film d’action explosif.`, mafia: 'carmine' },
+      { text: `Un thriller psychologique complexe.`, mafia: 'siames' },
+      { text: `Un drame familial intense.`, mafia: 'siames' },
+      { text: `Un classique de gangsters qui impose le respect.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `25. Ton rapport à l’argent :`,
+    answers: [
+      { text: `Je le dépense vite, je veux profiter.`, mafia: 'carmine' },
+      { text: `Je l’investis intelligemment pour le faire grandir.`, mafia: 'siames' },
+      { text: `Je le partage avec ceux qui comptent.`, mafia: 'siames' },
+      { text: `Je l’utilise pour montrer ma réussite.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `26. Une soirée idéale pour toi, c’est…`,
+    answers: [
+      { text: `Une boîte pleine de monde, de musique et d’adrénaline.`, mafia: 'carmine' },
+      { text: `Un dîner tranquille avec mes proches.`, mafia: 'siames' },
+      { text: `Un bar discret où l’on peut parler affaires.`, mafia: 'siames' },
+      { text: `Une fête où je suis la star de la soirée.`, mafia: 'carmine' },
+    ],
+  },
+  {
+    text: `27. Ton défaut principal serait plutôt…`,
+    answers: [
+      { text: `L’impulsivité.`, mafia: 'carmine' },
+      { text: `La paranoïa.`, mafia: 'siames' },
+      { text: `L’orgueil.`, mafia: 'carmine' },
+      { text: `Le besoin de tout contrôler.`, mafia: 'siames' },
+    ],
+  },
+  {
+    text: `28. Si tu étais une couleur :`,
+    answers: [
+      { text: `Rouge vif, la passion et le danger.`, mafia: 'carmine' },
+      { text: `Violet profond, mystère et stratégie.`, mafia: 'siames' },
+      { text: `Noir, la force et l’élégance.`, mafia: 'carmine' },
+      { text: `Bleu sombre, calme et stabilité.`, mafia: 'siames' },
+    ],
+  },
+  {
+    text: `29. Quel type de musique t’attire le plus ?`,
+    answers: [
+      { text: `Rap/Trap, brut et direct.`, mafia: 'carmine' },
+      { text: `Jazz ou blues, réfléchi et posé.`, mafia: 'siames' },
+      { text: `Rock classique, rebelle et charismatique.`, mafia: 'carmine' },
+      { text: `Classique ou instrumental, qui aide à réfléchir.`, mafia: 'siames' },
+    ],
+  },
+  {
+    text: `30. Si on devait écrire ton surnom dans la rue, ce serait…`,
+    answers: [
+      { text: `« Le Foudroyant ».`, mafia: 'carmine' },
+      { text: `« Le Fantôme ».`, mafia: 'siames' },
+      { text: `« Le Protecteur ».`, mafia: 'siames' },
+      { text: `« Le Roi ».`, mafia: 'carmine' },
+    ],
+  },
+      {
+        question: "Quelle valeur est la plus importante pour toi ?",
+        answers: [
+          { text: "Le respect par la force.", camp: "Carmine" },
+          { text: "La loyauté de ceux qui t’entourent.", camp: "Siames" },
+          { text: "L’efficacité, peu importe les moyens.", camp: "Mixte" }
+        ]
+      },
+      // 👉 tu peux rajouter les autres questions ici !
+    ];
 
     function startQuiz() {
-      document.getElementById("intro").style.display = "none";
-      document.getElementById("quiz").style.display = "block";
+      intro.style.display = "none";
+      quiz.style.display = "block";
       showQuestion();
     }
 
     function showQuestion() {
       const q = questions[currentQuestion];
-      document.getElementById("question").textContent = q.text;
-      const answersDiv = document.getElementById("answers");
-      answersDiv.innerHTML = "";
-      selectedButton = null;
-      q.answers.forEach((ans) => {
-        const btn = document.createElement("button");
-        btn.textContent = ans.text;
-        btn.classList.add("answer-btn");
-        btn.onclick = () => selectAnswer(btn, ans.mafia);
-        answersDiv.appendChild(btn);
+      questionEl.textContent = q.question;
+      answersEl.innerHTML = "";
+      selectedAnswer = null;
+
+      q.answers.forEach((a, index) => {
+        const btn = document.createElement("div");
+        btn.classList.add("answer");
+        btn.textContent = a.text;
+        btn.onclick = () => selectAnswer(btn, a.camp);
+        answersEl.appendChild(btn);
       });
     }
 
-    function selectAnswer(button, mafia) {
-      if (selectedButton) {
-        selectedButton.classList.remove("selected");
-      }
-      button.classList.add("selected");
-      selectedButton = button;
-      scores[mafia]++;
-      document.getElementById("nextBtn").style.display = "block";
+    function selectAnswer(element, camp) {
+      const allAnswers = document.querySelectorAll(".answer");
+      allAnswers.forEach(ans => ans.classList.remove("selected"));
+      element.classList.add("selected");
+      selectedAnswer = camp;
+    }
+
+    function updateBar() {
+      const total = carmineScore + siamesScore || 1;
+      const carminePercent = (carmineScore / total) * 100;
+      const siamesPercent = (siamesScore / total) * 100;
+      carmineBar.style.width = carminePercent + "%";
+      siamesBar.style.width = siamesPercent + "%";
     }
 
     function nextQuestion() {
+      if (!selectedAnswer) return alert("Choisis une réponse !");
+      if (selectedAnswer === "Carmine") carmineScore++;
+      if (selectedAnswer === "Siames") siamesScore++;
+
+      updateBar();
+
       currentQuestion++;
-      document.getElementById("nextBtn").style.display = "none";
       if (currentQuestion < questions.length) {
         showQuestion();
       } else {
@@ -228,15 +518,14 @@
     }
 
     function showResult() {
-      let resultText = "";
-      if (scores.carmine > scores.siames) {
-        resultText = "Tu appartiens à la famille <span class='carmine'>Carmine 🔴</span> !";
-      } else if (scores.siames > scores.carmine) {
-        resultText = "Tu appartiens à la famille <span class='siames'>Siames 🟣</span> !";
+      document.getElementById("question-container").style.display = "none";
+      if (carmineScore > siamesScore) {
+        resultEl.innerHTML = `Tu appartiens aux <span class="carmine">Carmine</span> 🔥`;
+      } else if (siamesScore > carmineScore) {
+        resultEl.innerHTML = `Tu appartiens aux <span class="siames">Siames</span> 🕵️‍♂️`;
       } else {
-        resultText = "Tu as un esprit partagé entre <span class='carmine'>Carmine</span> et <span class='siames'>Siames</span>...";
+        resultEl.innerHTML = `Ton cœur balance entre les <span class="carmine">Carmine</span> et les <span class="siames">Siames</span>...`;
       }
-      document.getElementById("quiz").innerHTML = `<h2>Résultat</h2><p>${resultText}</p>`;
     }
   </script>
 </body>
