@@ -55,17 +55,39 @@
       border-radius: 12px;
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
-    button {
+    #answers {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
       margin-top: 20px;
-      padding: 10px 20px;
+    }
+    .answer-btn {
+      background: #333;
+      color: white;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: 0.3s;
+      width: 100%;
+    }
+    .answer-btn:hover {
+      background: #555;
+      transform: scale(1.02);
+    }
+    #nextBtn {
+      margin-top: 25px;
+      padding: 12px 25px;
       border: none;
       background: #444;
       color: white;
       border-radius: 8px;
       cursor: pointer;
+      font-size: 1em;
       transition: 0.3s;
     }
-    button:hover {
+    #nextBtn:hover {
       background: #666;
     }
   </style>
@@ -102,7 +124,7 @@
           { text: "J’improvise, peu importe les conséquences", mafia: "carmine" }
         ]
       },
-      // Tu peux ajouter ici toutes tes autres questions
+      // Ajoute tes autres questions ici
     ];
 
     let currentQuestion = 0;
@@ -119,9 +141,10 @@
       document.getElementById("question").textContent = q.text;
       const answersDiv = document.getElementById("answers");
       answersDiv.innerHTML = "";
-      q.answers.forEach((ans, index) => {
+      q.answers.forEach((ans) => {
         const btn = document.createElement("button");
         btn.textContent = ans.text;
+        btn.classList.add("answer-btn");
         btn.onclick = () => selectAnswer(ans.mafia);
         answersDiv.appendChild(btn);
       });
