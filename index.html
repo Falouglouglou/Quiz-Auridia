@@ -14,6 +14,7 @@
     }
     #intro {
       margin-top: 100px;
+      animation: fadeIn 1s;
     }
     #intro h1 {
       font-size: 2em;
@@ -54,12 +55,14 @@
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      animation: fadeIn 1s;
     }
     #answers {
       display: flex;
       flex-direction: column;
       gap: 15px;
       margin-top: 20px;
+      animation: fadeIn 1s;
     }
     .answer-btn {
       background: #333;
@@ -76,6 +79,10 @@
       background: #555;
       transform: scale(1.02);
     }
+    .answer-btn.selected {
+      background: #666;
+      border: 2px solid #fff;
+    }
     #nextBtn {
       margin-top: 25px;
       padding: 12px 25px;
@@ -89,6 +96,10 @@
     }
     #nextBtn:hover {
       background: #666;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -125,28 +136,55 @@
         ]
       },
       {
-        text: "Quand tu es en colère, tu as tendance à…",
+        text: "Quelle valeur te parle le plus ?",
         answers: [
-          { text: "Exploser sans réfléchir, ça doit sortir.", mafia: "carmine" },
-          { text: "Te taire et ruminer avant d’agir.", mafia: "siames" },
-          { text: "Utiliser ta colère comme carburant pour avancer.", mafia: "carmine" },
-          { text: "Chercher à canaliser tes émotions pour rester maître de tes actes.", mafia: "siames" }
+          { text: "La loyauté avant tout", mafia: "siames" },
+          { text: "Le pouvoir et le respect", mafia: "carmine" },
+          { text: "La discrétion et l’efficacité", mafia: "siames" },
+          { text: "La domination par la force", mafia: "carmine" }
         ]
       },
       {
-        text: "Si tu dois gérer une trahison dans ton clan :",
+        text: "Une trahison dans ton clan : comment réagis-tu ?",
         answers: [
-          { text: "Exécuter le traître sur-le-champ, peu importe ses justifications.", mafia: "carmine" },
-          { text: "Chercher à comprendre ses motivations avant de prendre une décision.", mafia: "siames" },
-          { text: "L’éloigner discrètement, pour éviter le scandale.", mafia: "siames" },
-          { text: "Le torturer publiquement, pour dissuader les autres.", mafia: "carmine" }
+          { text: "Sanction immédiate, sans pitié", mafia: "carmine" },
+          { text: "Analyser les raisons avant d’agir", mafia: "siames" },
+          { text: "Protéger d’abord les innocents avant de décider", mafia: "siames" },
+          { text: "Faire un exemple pour inspirer la peur", mafia: "carmine" }
         ]
       },
-      // Ajoute tes autres questions ici
+      {
+        text: "Tu as un rendez-vous important : comment t’habilles-tu ?",
+        answers: [
+          { text: "Classe, costume sombre impeccable", mafia: "carmine" },
+          { text: "Sobre mais élégant, rien de tape-à-l’œil", mafia: "siames" },
+          { text: "Peu importe, l’important c’est le fond", mafia: "siames" },
+          { text: "Tout pour impressionner, quitte à en faire trop", mafia: "carmine" }
+        ]
+      },
+      {
+        text: "Tu es en soirée : quel est ton rôle ?",
+        answers: [
+          { text: "Celui qui attire l’attention, centre de la fête", mafia: "carmine" },
+          { text: "L’organisateur discret qui veille sur tout le monde", mafia: "siames" },
+          { text: "Celui qui écoute et observe les autres", mafia: "siames" },
+          { text: "Le boute-en-train qui entraîne tout le monde dans ses délires", mafia: "carmine" }
+        ]
+      },
+      {
+        text: "Quel type de film préfères-tu ?",
+        answers: [
+          { text: "Les films de gangsters violents et directs", mafia: "carmine" },
+          { text: "Les thrillers psychologiques pleins de stratégie", mafia: "siames" },
+          { text: "Les drames familiaux où la loyauté est mise à l’épreuve", mafia: "siames" },
+          { text: "Les blockbusters explosifs et sans réflexion", mafia: "carmine" }
+        ]
+      }
     ];
 
     let currentQuestion = 0;
     let scores = { carmine: 0, siames: 0 };
+    let selectedButton = null;
 
     function startQuiz() {
       document.getElementById("intro").style.display = "none";
@@ -159,16 +197,22 @@
       document.getElementById("question").textContent = q.text;
       const answersDiv = document.getElementById("answers");
       answersDiv.innerHTML = "";
+      selectedButton = null;
       q.answers.forEach((ans) => {
         const btn = document.createElement("button");
         btn.textContent = ans.text;
         btn.classList.add("answer-btn");
-        btn.onclick = () => selectAnswer(ans.mafia);
+        btn.onclick = () => selectAnswer(btn, ans.mafia);
         answersDiv.appendChild(btn);
       });
     }
 
-    function selectAnswer(mafia) {
+    function selectAnswer(button, mafia) {
+      if (selectedButton) {
+        selectedButton.classList.remove("selected");
+      }
+      button.classList.add("selected");
+      selectedButton = button;
       scores[mafia]++;
       document.getElementById("nextBtn").style.display = "block";
     }
