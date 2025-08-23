@@ -1,267 +1,158 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <body>
-  <!-- Écran d'accueil -->
-  <div id="intro">
-    <h1>Bienvenue dans le Test Auridia</h1>
-    <p>
-      Ce quiz va te plonger dans l’univers des mafias d’Auridia.  
-      Réponds aux questions et découvre à quelle famille tu appartiens :  
-      <strong>Carmine 🔴</strong> ou <strong>Siames 🟣</strong>.  
-    </p>
-    <button onclick="startQuiz()">Commencer</button>
-  </div>
-
-  <!-- Section du quiz (cachée au départ) -->
-  <div id="quiz" style="display:none;">
-    <!-- ton code de quiz existant --> 
-    <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz Auridia</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Auridia</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #1a1a1a;
-      color: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .quiz-container {
-      background: #2b2b2b;
-      border-radius: 12px;
-      padding: 20px;
-      width: 500px;
+      background-color: #111;
+      color: #eee;
       text-align: center;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      padding: 20px;
     }
-    .question {
-      font-size: 20px;
+    #intro {
+      margin-top: 100px;
+    }
+    #intro h1 {
+      font-size: 2em;
       margin-bottom: 20px;
     }
-    .answers button {
-      display: block;
-      margin: 10px auto;
-      padding: 10px 15px;
+    #intro p {
+      font-size: 1.1em;
+      margin-bottom: 30px;
+    }
+    .btn {
+      background-color: #444;
+      color: #fff;
       border: none;
+      padding: 15px 30px;
       border-radius: 8px;
+      font-size: 1.1em;
       cursor: pointer;
-      width: 100%;
-      font-size: 16px;
-      background: #444;
-      color: white;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
     }
-    .answers button:hover {
-      background: #666;
+    .btn:hover {
+      background-color: #666;
+      transform: scale(1.05);
     }
-    #result {
-      font-size: 22px;
-      margin-top: 20px;
+    .carmine {
+      color: #e63946;
       font-weight: bold;
     }
-    .carmine { color: #e63946; }
-    .siames { color: #9d4edd; }
+    .siames {
+      color: #8a2be2;
+      font-weight: bold;
+    }
+    #quiz {
+      display: none;
+      max-width: 600px;
+      margin: auto;
+      margin-top: 50px;
+      background: #222;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      background: #444;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #666;
+    }
   </style>
 </head>
 <body>
-  <div class="quiz-container">
-    <div id="quiz">
-      <div class="question" id="question"></div>
-      <div class="answers" id="answers"></div>
-    </div>
-    <div id="result"></div>
+
+  <!-- Page d'intro -->
+  <div id="intro">
+    <h1>Bienvenue dans le Test Auridia</h1>
+    <p>
+      Ce quiz va te plonger dans l’univers des mafias d’Auridia.<br>
+      Réponds aux questions et découvre à quelle famille tu appartiens :
+      <span class="carmine">Carmine 🔴</span> ou <span class="siames">Siames 🟣</span>.
+    </p>
+    <button class="btn" onclick="startQuiz()">Commencer le test</button>
+  </div>
+
+  <!-- Quiz -->
+  <div id="quiz">
+    <h2 id="question"></h2>
+    <div id="answers"></div>
+    <button onclick="nextQuestion()" id="nextBtn" style="display:none;">Suivant</button>
+    <div id="result" style="margin-top:20px;font-size:1.2em;"></div>
   </div>
 
   <script>
     const questions = [
       {
-        text: "1. En cas de conflit, ton premier réflexe est :",
+        text: "Quand tu fais face à un problème, quelle est ta première réaction ?",
         answers: [
-          { text: "A) Foncer dans le tas, mieux vaut régler ça vite et fort.", faction: "carmine" },
-          { text: "B) Observer la situation avant de prendre une décision.", faction: "siames" },
-          { text: "C) Chercher un compromis rapide pour ne pas perdre de temps.", faction: "siames" }
+          { text: "Agir vite, quitte à foncer dans le tas", mafia: "carmine" },
+          { text: "Réfléchir à une stratégie avant d’agir", mafia: "siames" },
+          { text: "Chercher de l’aide auprès de mes proches", mafia: "siames" },
+          { text: "J’improvise, peu importe les conséquences", mafia: "carmine" }
         ]
       },
-      {
-        text: "2. Quelle valeur est la plus importante pour toi ?",
-        answers: [
-          { text: "Le respect par la force.", faction: "carmine" },
-          { text: "La loyauté de ceux qui t’entourent.", faction: "siames" },
-          { text: "L’efficacité, peu importe les moyens.", faction: "carmine" }
-        ]
-      },
-     {
-        text: "3. Face à un problème d’argent, ta solution idéale :",
-        answers: [
-          { text: "Prendre de force ce dont j’ai besoin.", faction: "carmine" },
-          { text: "Monter un plan sur le long terme, quitte à patienter.", faction: "siames" },
-          { text: "Miser sur mes relations et mes contacts pour trouver une solution.", faction: "siames" },
-          { text: "Jouer un coup risqué : la chance sourit aux audacieux.", faction: "carmine" }
-        ]
-      },
-      {
-        text: "4. Question",
-        answers: [
-          { text: "A", faction: " " },
-          { text: "B", faction: " " },
-          { text: "C", faction: " " },
-          { text: "D", faction: " " }
-        ]
-      },
-      {
-        text: "5. Question",
-        answers: [
-          { text: "A", faction: " " },
-          { text: "B", faction: " " },
-          { text: "C", faction: " " },
-          { text: "D", faction: " " }
-        ]
-      },
-      {
-        text: "6. Question",
-        answers: [
-          { text: "A", faction: " " },
-          { text: "B", faction: " " },
-          { text: "C", faction: " " },
-          { text: "D", faction: " " }
-        ]
-      },
-      {
-        text: "N. Question",
-        answers: [
-          { text: "A", faction: " " },
-          { text: "B", faction: " " },
-          { text: "C", faction: " " },
-          { text: "D", faction: " " }
-        ]
-      },
-      {
-        text: "N. Question",
-        answers: [
-          { text: "A", faction: " " },
-          { text: "B", faction: " " },
-          { text: "C", faction: " " },
-          { text: "D", faction: " " }
-        ]
-      },
-      {
-        text: "N. Question",
-        answers: [
-          { text: "A", faction: " " },
-          { text: "B", faction: " " },
-          { text: "C", faction: " " },
-          { text: "D", faction: " " }
-        ]
-      },
-      {
-        text: "N. Question",
-        answers: [
-          { text: "A", faction: " " },
-          { text: "B", faction: " " },
-          { text: "C", faction: " " },
-          { text: "D", faction: " " }
-        ]
-      },
-      {
-        text: "N. Question",
-        answers: [
-          { text: "A", faction: " " },
-          { text: "B", faction: " " },
-          { text: "C", faction: " " },
-          { text: "D", faction: " " }
-        ]
-      },
-      {
-        text: "N. Question",
-        answers: [
-          { text: "A", faction: " " },
-          { text: "B", faction: " " },
-          { text: "C", faction: " " },
-          { text: "D", faction: " " }
-        ]
-      },
-      {
-        text: "N. Question",
-        answers: [
-          { text: "A", faction: " " },
-          { text: "B", faction: " " },
-          { text: "C", faction: " " },
-          { text: "D", faction: " " }
-        ]
-      },
-      {
-        text: "N. Question",
-        answers: [
-          { text: "A", faction: " " },
-          { text: "B", faction: " " },
-          { text: "C", faction: " " },
-          { text: "D", faction: " " }
-        ]
-      },
-      {
-        text: "N. Question",
-        answers: [
-          { text: "A", faction: " " },
-          { text: "B", faction: " " },
-          { text: "C", faction: " " },
-          { text: "D", faction: " " }
-        ]
-      },
+      // Tu peux ajouter ici toutes tes autres questions
     ];
 
     let currentQuestion = 0;
     let scores = { carmine: 0, siames: 0 };
 
+    function startQuiz() {
+      document.getElementById("intro").style.display = "none";
+      document.getElementById("quiz").style.display = "block";
+      showQuestion();
+    }
+
     function showQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById("question").textContent = q.text;
+      const answersDiv = document.getElementById("answers");
+      answersDiv.innerHTML = "";
+      q.answers.forEach((ans, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = ans.text;
+        btn.onclick = () => selectAnswer(ans.mafia);
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(mafia) {
+      scores[mafia]++;
+      document.getElementById("nextBtn").style.display = "block";
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      document.getElementById("nextBtn").style.display = "none";
       if (currentQuestion < questions.length) {
-        const q = questions[currentQuestion];
-        document.getElementById("question").innerText = q.text;
-        const answersDiv = document.getElementById("answers");
-        answersDiv.innerHTML = "";
-        q.answers.forEach(answer => {
-          const btn = document.createElement("button");
-          btn.innerText = answer.text;
-          btn.onclick = () => selectAnswer(answer.faction);
-          answersDiv.appendChild(btn);
-        });
+        showQuestion();
       } else {
         showResult();
       }
     }
 
-    function selectAnswer(faction) {
-      scores[faction]++;
-      currentQuestion++;
-      showQuestion();
-    }
-
     function showResult() {
-      document.getElementById("quiz").style.display = "none";
       let resultText = "";
       if (scores.carmine > scores.siames) {
-        resultText = "Tu es un <span class='carmine'>Carmine</span> : impulsif, flamboyant, tu inspires la peur.";
+        resultText = "Tu appartiens à la famille <span class='carmine'>Carmine 🔴</span> !";
       } else if (scores.siames > scores.carmine) {
-        resultText = "Tu es un <span class='siames'>Siames</span> : réfléchi, loyal, tu protèges toujours les tiens.";
+        resultText = "Tu appartiens à la famille <span class='siames'>Siames 🟣</span> !";
       } else {
-        resultText = "Tu es entre deux mondes, partagé entre Carmine et Siames...";
+        resultText = "Tu as un esprit partagé entre <span class='carmine'>Carmine</span> et <span class='siames'>Siames</span>...";
       }
-      document.getElementById("result").innerHTML = resultText;
+      document.getElementById("quiz").innerHTML = `<h2>Résultat</h2><p>${resultText}</p>`;
     }
-
-    showQuestion();
   </script>
 </body>
 </html>
-  </div>
-
-  <script>
-    function startQuiz() {
-      document.getElementById("intro").style.display = "none"; // cache l'accueil
-      document.getElementById("quiz").style.display = "block"; // montre le quiz
-    }
-  </script>
-</body>
