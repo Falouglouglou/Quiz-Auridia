@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Auridia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1a1a1a;
+      color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .quiz-container {
+      background: #2b2b2b;
+      border-radius: 12px;
+      padding: 20px;
+      width: 500px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    .question {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    .answers button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      background: #444;
+      color: white;
+      transition: background 0.3s;
+    }
+    .answers button:hover {
+      background: #666;
+    }
+    #result {
+      font-size: 22px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .carmine { color: #e63946; }
+    .siames { color: #9d4edd; }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div id="quiz">
+      <div class="question" id="question"></div>
+      <div class="answers" id="answers"></div>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        text: "En cas de conflit, ton premier réflexe est :",
+        answers: [
+          { text: "Foncer dans le tas, mieux vaut régler ça vite et fort.", faction: "carmine" },
+          { text: "Observer la situation avant de prendre une décision.", faction: "siames" },
+          { text: "Chercher un compromis rapide pour ne pas perdre de temps.", faction: "siames" }
+        ]
+      },
+      {
+        text: "Quelle valeur est la plus importante pour toi ?",
+        answers: [
+          { text: "Le respect par la force.", faction: "carmine" },
+          { text: "La loyauté de ceux qui t’entourent.", faction: "siames" },
+          { text: "L’efficacité, peu importe les moyens.", faction: "carmine" }
+        ]
+      }
+      // 👉 tu pourras ajouter toutes tes autres questions ici
+    ];
+
+    let currentQuestion = 0;
+    let scores = { carmine: 0, siames: 0 };
+
+    function showQuestion() {
+      if (currentQuestion < questions.length) {
+        const q = questions[currentQuestion];
+        document.getElementById("question").innerText = q.text;
+        const answersDiv = document.getElementById("answers");
+        answersDiv.innerHTML = "";
+        q.answers.forEach(answer => {
+          const btn = document.createElement("button");
+          btn.innerText = answer.text;
+          btn.onclick = () => selectAnswer(answer.faction);
+          answersDiv.appendChild(btn);
+        });
+      } else {
+        showResult();
+      }
+    }
+
+    function selectAnswer(faction) {
+      scores[faction]++;
+      currentQuestion++;
+      showQuestion();
+    }
+
+    function showResult() {
+      document.getElementById("quiz").style.display = "none";
+      let resultText = "";
+      if (scores.carmine > scores.siames) {
+        resultText = "Tu es un <span class='carmine'>Carmine</span> : impulsif, flamboyant, tu inspires la peur.";
+      } else if (scores.siames > scores.carmine) {
+        resultText = "Tu es un <span class='siames'>Siames</span> : réfléchi, loyal, tu protèges toujours les tiens.";
+      } else {
+        resultText = "Tu es entre deux mondes, partagé entre Carmine et Siames...";
+      }
+      document.getElementById("result").innerHTML = resultText;
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
