@@ -1,5 +1,31 @@
 <!DOCTYPE html>
 <html lang="fr">
+  <body>
+  <!-- Écran d'accueil -->
+  <div id="intro">
+    <h1>Bienvenue dans le Test Auridia</h1>
+    <p>
+      Ce quiz va te plonger dans l’univers des mafias d’Auridia.  
+      Réponds aux questions et découvre à quelle famille tu appartiens :  
+      <strong>Carmine 🔴</strong> ou <strong>Siames 🟣</strong>.  
+    </p>
+    <button onclick="startQuiz()">Commencer</button>
+  </div>
+
+  <!-- Section du quiz (cachée au départ) -->
+  <div id="quiz" style="display:none;">
+    <!-- ton code de quiz existant -->
+  </div>
+
+  <script>
+    function startQuiz() {
+      document.getElementById("intro").style.display = "none"; // cache l'accueil
+      document.getElementById("quiz").style.display = "block"; // montre le quiz
+    }
+  </script>
+</body>
+
+  <div id="quiz" style="display:none;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,15 +90,15 @@
   <script>
     const questions = [
       {
-        text: "En cas de conflit, ton premier réflexe est :",
+        text: "1. En cas de conflit, ton premier réflexe est :",
         answers: [
-          { text: "Foncer dans le tas, mieux vaut régler ça vite et fort.", faction: "carmine" },
-          { text: "Observer la situation avant de prendre une décision.", faction: "siames" },
-          { text: "Chercher un compromis rapide pour ne pas perdre de temps.", faction: "siames" }
+          { text: "A) Foncer dans le tas, mieux vaut régler ça vite et fort.", faction: "carmine" },
+          { text: "B) Observer la situation avant de prendre une décision.", faction: "siames" },
+          { text: "C) Chercher un compromis rapide pour ne pas perdre de temps.", faction: "siames" }
         ]
       },
       {
-        text: "Quelle valeur est la plus importante pour toi ?",
+        text: "2. Quelle valeur est la plus importante pour toi ?",
         answers: [
           { text: "Le respect par la force.", faction: "carmine" },
           { text: "La loyauté de ceux qui t’entourent.", faction: "siames" },
@@ -80,14 +106,122 @@
         ]
       },
      {
-        text: "Face à un problème d’argent, ta solution idéale :",
+        text: "3. Face à un problème d’argent, ta solution idéale :",
         answers: [
           { text: "Prendre de force ce dont j’ai besoin.", faction: "carmine" },
           { text: "Monter un plan sur le long terme, quitte à patienter.", faction: "siames" },
           { text: "Miser sur mes relations et mes contacts pour trouver une solution.", faction: "siames" },
           { text: "Jouer un coup risqué : la chance sourit aux audacieux.", faction: "carmine" }
         ]
-      }
+      },
+      {
+        text: "4. Question",
+        answers: [
+          { text: "A", faction: " " },
+          { text: "B", faction: " " },
+          { text: "C", faction: " " },
+          { text: "D", faction: " " }
+        ]
+      },
+      {
+        text: "5. Question",
+        answers: [
+          { text: "A", faction: " " },
+          { text: "B", faction: " " },
+          { text: "C", faction: " " },
+          { text: "D", faction: " " }
+        ]
+      },
+      {
+        text: "6. Question",
+        answers: [
+          { text: "A", faction: " " },
+          { text: "B", faction: " " },
+          { text: "C", faction: " " },
+          { text: "D", faction: " " }
+        ]
+      },
+      {
+        text: "N. Question",
+        answers: [
+          { text: "A", faction: " " },
+          { text: "B", faction: " " },
+          { text: "C", faction: " " },
+          { text: "D", faction: " " }
+        ]
+      },
+      {
+        text: "N. Question",
+        answers: [
+          { text: "A", faction: " " },
+          { text: "B", faction: " " },
+          { text: "C", faction: " " },
+          { text: "D", faction: " " }
+        ]
+      },
+      {
+        text: "N. Question",
+        answers: [
+          { text: "A", faction: " " },
+          { text: "B", faction: " " },
+          { text: "C", faction: " " },
+          { text: "D", faction: " " }
+        ]
+      },
+      {
+        text: "N. Question",
+        answers: [
+          { text: "A", faction: " " },
+          { text: "B", faction: " " },
+          { text: "C", faction: " " },
+          { text: "D", faction: " " }
+        ]
+      },
+      {
+        text: "N. Question",
+        answers: [
+          { text: "A", faction: " " },
+          { text: "B", faction: " " },
+          { text: "C", faction: " " },
+          { text: "D", faction: " " }
+        ]
+      },
+      {
+        text: "N. Question",
+        answers: [
+          { text: "A", faction: " " },
+          { text: "B", faction: " " },
+          { text: "C", faction: " " },
+          { text: "D", faction: " " }
+        ]
+      },
+      {
+        text: "N. Question",
+        answers: [
+          { text: "A", faction: " " },
+          { text: "B", faction: " " },
+          { text: "C", faction: " " },
+          { text: "D", faction: " " }
+        ]
+      },
+      {
+        text: "N. Question",
+        answers: [
+          { text: "A", faction: " " },
+          { text: "B", faction: " " },
+          { text: "C", faction: " " },
+          { text: "D", faction: " " }
+        ]
+      },
+      {
+        text: "N. Question",
+        answers: [
+          { text: "A", faction: " " },
+          { text: "B", faction: " " },
+          { text: "C", faction: " " },
+          { text: "D", faction: " " }
+        ]
+      },
     ];
 
     let currentQuestion = 0;
@@ -133,3 +267,4 @@
   </script>
 </body>
 </html>
+</div>
