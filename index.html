@@ -184,9 +184,7 @@
         answers: [
           { text: "Foncer dans le tas, mieux vaut régler ça vite et fort.", camp: "Carmine" },
           { text: "Observer la situation avant de prendre une décision.", camp: "Siames" },
-          { text: "Chercher un compromis rapide pour ne pas perdre de temps.", camp: "Siames" }
-          { text: "Réponse D", camp: "Carmine" }
-          
+          { text: "Chercher un compromis rapide pour ne pas perdre de temps.", camp: "Neutre" }
         ]
       },
       {
@@ -194,20 +192,37 @@
         answers: [
           { text: "Le respect par la force.", camp: "Carmine" },
           { text: "La loyauté de ceux qui t’entourent.", camp: "Siames" },
-          { text: "L’efficacité, peu importe les moyens.", camp: "Siames" }
-          { text: "Réponse D", camp: "Carmine" }
+          { text: "L’efficacité, peu importe les moyens.", camp: "Mixte" }
         ]
       },
       {
-        question: "En cas de conflit, ton premier réflexe est :",
+        question: "Ta soirée idéale ressemble à :",
         answers: [
-          { text: "Foncer dans le tas, mieux vaut régler ça vite et fort.", camp: "Carmine" },
-          { text: "Observer la situation avant de prendre une décision.", camp: "Siames" },
-          { text: "Chercher un compromis rapide pour ne pas perdre de temps.", camp: "Siames" }
-          { text: "Réponse D", camp: "Carmine" }
+          { text: "Une fête animée où tout le monde me remarque.", camp: "Carmine" },
+          { text: "Un cercle plus restreint, mais avec mes plus proches alliés.", camp: "Siames" }
         ]
       },
-      // 👉 tu peux rajouter les autres questions ici !
+      {
+        question: "Si tu devais choisir une arme :",
+        answers: [
+          { text: "Un pistolet, rapide et efficace.", camp: "Carmine" },
+          { text: "Un couteau, silencieux et discret.", camp: "Siames" }
+        ]
+      },
+      {
+        question: "Ton plus grand défaut serait :",
+        answers: [
+          { text: "L’impulsivité.", camp: "Carmine" },
+          { text: "La méfiance excessive.", camp: "Siames" }
+        ]
+      },
+      {
+        question: "Un mot qui te décrit le mieux :",
+        answers: [
+          { text: "Passionné.", camp: "Carmine" },
+          { text: "Calculateur.", camp: "Siames" }
+        ]
+      }
     ];
 
     function startQuiz() {
@@ -222,7 +237,7 @@
       answersEl.innerHTML = "";
       selectedAnswer = null;
 
-      q.answers.forEach((a, index) => {
+      q.answers.forEach((a) => {
         const btn = document.createElement("div");
         btn.classList.add("answer");
         btn.textContent = a.text;
