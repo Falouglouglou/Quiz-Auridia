@@ -196,20 +196,272 @@
         ]
       },
       {
-        question: "Quelle valeur est la plus importante pour toi ?",
-        answers: [
-          { text: "Le respect par la force.", camp: "Carmine" },
-          { text: "La loyauté de ceux qui t’entourent.", camp: "Siames" },
-          { text: "L’efficacité, peu importe les moyens.", camp: "Mixte" }
-        ]
-      },
-      {
-    text: `1. En cas de conflit, ton premier réflexe est :`,
+    text: `En cas de conflit, ton premier réflexe est :`,
     answers: [
       { text: `Foncer dans le tas, mieux vaut régler ça vite et fort.`, mafia: 'carmine' },
       { text: `Observer la situation avant de prendre une décision.`, mafia: 'siames' },
       { text: `Chercher un compromis rapide pour ne pas perdre de temps.`, mafia: 'siames' },
+    ]
+  },
+  {
+    text: `Quelle valeur est la plus importante pour toi ?`,
+    answers: [
+      { text: `Le respect par la force.`, mafia: 'carmine' },
+      { text: `La loyauté de ceux qui t’entourent.`, mafia: 'siames' },
+      { text: `L’efficacité, peu importe les moyens.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `3. Face à un problème d’argent, ta solution idéale :`,
+    answers: [
+      { text: `Prendre de force ce dont j’ai besoin.`, mafia: 'carmine' },
+      { text: `Monter un plan sur le long terme, quitte à patienter.`, mafia: 'siames' },
+      { text: `Miser sur mes relations et mes contacts pour trouver une solution.`, mafia: 'siames' },
+      { text: `Jouer un coup risqué : la chance sourit aux audacieux.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `4. Dans une organisation, quel rôle t’attire le plus ?`,
+    answers: [
+      { text: `Celui qui impose le respect par sa présence et son autorité.`, mafia: 'carmine' },
+      { text: `Celui qui tire les ficelles discrètement dans l’ombre.`, mafia: 'siames' },
+      { text: `Celui qui protège la famille, prêt à tout pour eux.`, mafia: 'siames' },
+      { text: `Celui qui prend des risques et fait le sale boulot.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `5. Si un ennemi touche à un proche, tu…`,
+    answers: [
+      { text: `Cherches immédiatement à te venger, sans réfléchir.`, mafia: 'carmine' },
+      { text: `Organises une riposte calculée pour ne pas mettre les tiens en danger.`, mafia: 'siames' },
+      { text: `Utilises la ruse pour l’affaiblir sans qu’il le voie venir.`, mafia: 'siames' },
+      { text: `Fais un exemple brutal pour que plus personne n’ose recommencer.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `6. Quelle est ta vision de la violence ?`,
+    answers: [
+      { text: `Un outil nécessaire, pas plus.`, mafia: 'siames' },
+      { text: `La meilleure façon de se faire respecter.`, mafia: 'carmine' },
+      { text: `Une arme qu’il faut manier intelligemment.`, mafia: 'siames' },
+      { text: `Un plaisir presque cathartique.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `7. Comment aimerais-tu que les autres te voient ?`,
+    answers: [
+      { text: `Comme quelqu’un de craint et respecté.`, mafia: 'carmine' },
+      { text: `Comme un protecteur loyal.`, mafia: 'siames' },
+      { text: `Comme un stratège malin.`, mafia: 'siames' },
+      { text: `Comme un meneur audacieux.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `8. Si tu dois gérer une trahison dans ton clan :`,
+    answers: [
+      { text: `Exécuter le traître sur-le-champ, pour l’exemple.`, mafia: 'carmine' },
+      { text: `Chercher à comprendre ses motivations avant d’agir.`, mafia: 'siames' },
+      { text: `L’éloigner discrètement, pour éviter le scandale.`, mafia: 'siames' },
+      { text: `Le torturer publiquement, pour dissuader les autres.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `9. Quelle stratégie adoptes-tu dans une guerre de territoire ?`,
+    answers: [
+      { text: `Prendre les zones par la force, rapidement.`, mafia: 'carmine' },
+      { text: `Avancer doucement mais sûrement, en consolidant chaque pas.`, mafia: 'siames' },
+      { text: `Jouer sur les alliances et la manipulation pour diviser l’ennemi.`, mafia: 'siames' },
+      { text: `Tout miser sur un coup spectaculaire qui fera peur à tous.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `10. Quelle phrase pourrait te représenter ?`,
+    answers: [
+      { text: `« La peur est la meilleure des armes. »`, mafia: 'carmine' },
+      { text: `« Seul, on va vite. Ensemble, on va loin. »`, mafia: 'siames' },
+      { text: `« Un coup bien préparé vaut mille coups précipités. »`, mafia: 'siames' },
+      { text: `« On se souviendra toujours de celui qui frappe le plus fort. »`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `11. Dans un jeu, quel rôle prends-tu le plus souvent ?`,
+    answers: [
+      { text: `Le guerrier qui fonce tête baissée.`, mafia: 'carmine' },
+      { text: `Le stratège qui planifie et soutient l’équipe.`, mafia: 'siames' },
+      { text: `Le leader charismatique qui motive les autres.`, mafia: 'carmine' },
+      { text: `Le protecteur qui veille sur ses alliés.`, mafia: 'siames' },
+    ]
+  },
+  {
+    text: `12. Quand tu es en colère, tu as tendance à…`,
+    answers: [
+      { text: `Exploser sans réfléchir, ça doit sortir.`, mafia: 'carmine' },
+      { text: `Te taire et ruminer avant d’agir.`, mafia: 'siames' },
+      { text: `Utiliser ta colère comme carburant pour avancer.`, mafia: 'carmine' },
+      { text: `Chercher à canaliser tes émotions pour rester maître de toi.`, mafia: 'siames' },
+    ]
+  },
+  {
+    text: `13. Quel environnement te correspond le mieux ?`,
+    answers: [
+      { text: `Une grande fête bruyante où tout le monde me remarque.`, mafia: 'carmine' },
+      { text: `Une réunion tranquille entre proches de confiance.`, mafia: 'siames' },
+      { text: `Un endroit neutre où je peux observer sans être dérangé.`, mafia: 'siames' },
+      { text: `Une scène publique où je peux imposer ma présence.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `14. Ton rapport au temps ?`,
+    answers: [
+      { text: `« Le plus vite, le mieux. »`, mafia: 'carmine' },
+      { text: `« Chaque chose en son temps. »`, mafia: 'siames' },
+      { text: `« Il faut parfois patienter pour tout rafler. »`, mafia: 'siames' },
+      { text: `« L’instant présent est tout ce qui compte. »`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `15. Quel animal te ressemble le plus ?`,
+    answers: [
+      { text: `Le lion, qui règne par sa force.`, mafia: 'carmine' },
+      { text: `Le loup, qui vit et agit pour sa meute.`, mafia: 'siames' },
+      { text: `Le renard, discret mais rusé.`, mafia: 'siames' },
+      { text: `Le taureau, qui charge quand il est provoqué.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `16. Quelle qualité te définit le mieux ?`,
+    answers: [
+      { text: `Le courage.`, mafia: 'carmine' },
+      { text: `La loyauté.`, mafia: 'siames' },
+      { text: `La patience.`, mafia: 'siames' },
+      { text: `L’audace.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `17. Comment réagis-tu face à l’injustice ?`,
+    answers: [
+      { text: `Je rends coup pour coup, immédiatement.`, mafia: 'carmine' },
+      { text: `J’analyse la situation pour trouver la meilleure riposte.`, mafia: 'siames' },
+      { text: `Je rassemble les miens pour faire front ensemble.`, mafia: 'siames' },
+      { text: `Je fais un exemple pour que ça n’arrive plus jamais.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `18. Quel type de leader t’inspire le plus ?`,
+    answers: [
+      { text: `Celui qui impose par la peur.`, mafia: 'carmine' },
+      { text: `Celui qui guide par l’exemple et la loyauté.`, mafia: 'siames' },
+      { text: `Celui qui manipule habilement sans qu’on s’en aperçoive.`, mafia: 'siames' },
+      { text: `Celui qui prend les risques à la place des autres.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `19. Comment préfères-tu régler un problème personnel ?`,
+    answers: [
+      { text: `En frappant fort pour en finir.`, mafia: 'carmine' },
+      { text: `En réfléchissant à la solution la plus durable.`, mafia: 'siames' },
+      { text: `En demandant conseil à ceux en qui j’ai confiance.`, mafia: 'siames' },
+      { text: `En prenant une décision rapide sans me retourner.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `20. Quelle devise te parle le plus ?`,
+    answers: [
+      { text: `« Qui ose, gagne. »`, mafia: 'carmine' },
+      { text: `« L’union fait la force. »`, mafia: 'siames' },
+      { text: `« Le silence est une arme. »`, mafia: 'siames' },
+      { text: `« La fin justifie les moyens. »`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `21. Tu dois choisir une boisson pour la soirée :`,
+    answers: [
+      { text: `Un whisky sec, sans chichis.`, mafia: 'carmine' },
+      { text: `Un cocktail bien préparé, subtil et raffiné.`, mafia: 'siames' },
+      { text: `Une bière fraîche à partager entre amis.`, mafia: 'siames' },
+      { text: `Un shot qui brûle la gorge, juste pour montrer que tu tiens.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `22. Face à une règle injuste, tu…`,
+    answers: [
+      { text: `La brises sans hésiter, je fais ma loi.`, mafia: 'carmine' },
+      { text: `Cherches une faille pour la contourner intelligemment.`, mafia: 'siames' },
+      { text: `Essaies de rassembler les autres pour la changer.`, mafia: 'siames' },
+      { text: `Défies ouvertement l’autorité pour prouver ma force.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `23. Ton style vestimentaire idéal :`,
+    answers: [
+      { text: `Classe, costume, montre clinquante.`, mafia: 'carmine' },
+      { text: `Simple mais soigné, je préfère passer inaperçu.`, mafia: 'siames' },
+      { text: `Décontracté, l’important c’est d’être à l’aise.`, mafia: 'siames' },
+      { text: `Tape-à-l’œil, il faut que tout le monde me remarque.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `24. Si tu devais choisir un film préféré :`,
+    answers: [
+      { text: `Un film d’action explosif.`, mafia: 'carmine' },
+      { text: `Un thriller psychologique complexe.`, mafia: 'siames' },
+      { text: `Un drame familial intense.`, mafia: 'siames' },
+      { text: `Un classique de gangsters qui impose le respect.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `25. Ton rapport à l’argent :`,
+    answers: [
+      { text: `Je le dépense vite, je veux profiter.`, mafia: 'carmine' },
+      { text: `Je l’investis intelligemment pour le faire grandir.`, mafia: 'siames' },
+      { text: `Je le partage avec ceux qui comptent.`, mafia: 'siames' },
+      { text: `Je l’utilise pour montrer ma réussite.`, mafia: 'carmine' },
+    ]
+  },
+  {
+    text: `26. Une soirée idéale pour toi, c’est…`,
+    answers: [
+      { text: `Une boîte pleine de monde, de musique et d’adrénaline.`, mafia: 'carmine' },
+      { text: `Un dîner tranquille avec mes proches.`, mafia: 'siames' },
+      { text: `Un bar discret où l’on peut parler affaires.`, mafia: 'siames' },
+      { text: `Une fête où je suis la star de la soirée.`, mafia: 'carmine' },
     ],
+  },
+  {
+    text: `27. Ton défaut principal serait plutôt…`,
+    answers: [
+      { text: `L’impulsivité.`, mafia: 'carmine' },
+      { text: `La paranoïa.`, mafia: 'siames' },
+      { text: `L’orgueil.`, mafia: 'carmine' },
+      { text: `Le besoin de tout contrôler.`, mafia: 'siames' },
+    ]
+  },
+  {
+    text: `28. Si tu étais une couleur :`,
+    answers: [
+      { text: `Rouge vif, la passion et le danger.`, mafia: 'carmine' },
+      { text: `Violet profond, mystère et stratégie.`, mafia: 'siames' },
+      { text: `Noir, la force et l’élégance.`, mafia: 'carmine' },
+      { text: `Bleu sombre, calme et stabilité.`, mafia: 'siames' },
+    ]
+  },
+  {
+    text: `29. Quel type de musique t’attire le plus ?`,
+    answers: [
+      { text: `Rap/Trap, brut et direct.`, mafia: 'carmine' },
+      { text: `Jazz ou blues, réfléchi et posé.`, mafia: 'siames' },
+      { text: `Rock classique, rebelle et charismatique.`, mafia: 'carmine' },
+      { text: `Classique ou instrumental, qui aide à réfléchir.`, mafia: 'siames' },
+    ]
+  },
+  {
+    text: `30. Si on devait écrire ton surnom dans la rue, ce serait…`,
+    answers: [
+      { text: `« Le Foudroyant ».`, mafia: 'carmine' },
+      { text: `« Le Fantôme ».`, mafia: 'siames' },
+      { text: `« Le Protecteur ».`, mafia: 'siames' },
+      { text: `« Le Roi ».`, mafia: 'carmine' },
+    ]
   },
       // 👉 tu peux rajouter les autres questions ici !
     ];
