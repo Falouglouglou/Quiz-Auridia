@@ -146,7 +146,7 @@
   <!-- PAGE D’INTRO -->
   <div class="intro" id="intro">
     <h1>Découvre ton camp</h1>
-    <p>Ce test te révélera si ton cœur appartient aux <span class="carmine">Carmine</span> ou aux <span class="siames">Siames</span>. Réponds honnêtement aux questions pour découvrir ton destin..</p>
+    <p>Ce test te révélera si ton cœur appartient aux <span class="carmine">Carmine</span> ou aux <span class="siames">Siames</span>. Réponds honnêtement aux questions pour découvrir ton destin...</p>
     <button onclick="startQuiz()">Commencer le test</button>
   </div>
 
@@ -180,52 +180,6 @@
 
     const questions = [
       {
-        question: "En cas de conflit, ton premier réflexe est :",
-        answers: [
-          { text: "Foncer dans le tas, mieux vaut régler ça vite et fort.", camp: "Carmine" },
-          { text: "Observer la situation avant de prendre une décision.", camp: "Siames" },
-          { text: "Chercher un compromis rapide pour ne pas perdre de temps.", camp: "Neutre" }
-        ]
-      },
-      {
-        question: "Quelle valeur est la plus importante pour toi ?",
-        answers: [
-          { text: "Le respect par la force.", camp: "Carmine" },
-          { text: "La loyauté de ceux qui t’entourent.", camp: "Siames" },
-          { text: "L’efficacité, peu importe les moyens.", camp: "Mixte" }
-        ]
-      },
-      {
-        question: "Ta soirée idéale ressemble à :",
-        answers: [
-          { text: "Une fête animée où tout le monde me remarque.", camp: "Carmine" },
-          { text: "Un cercle plus restreint, mais avec mes plus proches alliés.", camp: "Siames" }
-        ]
-      },
-      {
-        question: "Quelle est ta vision de la violence ?",
-        answers: [
-          { text: "Un outil nécessaire, pas plus.", camp: "Siames" },
-          { text: "La meilleure façon de se faire respecter.", camp: "Carmine" },
-          { text: "Une arme qu’il faut manier intelligemment.", camp: "Siames" },
-          { text: "Un plaisir presque cathartique.", camp: "Carmine" }
-        ]
-      },
-      {
-        question: "Si tu devais choisir une arme :",
-        answers: [
-          { text: "Un pistolet, rapide et efficace.", camp: "Carmine" },
-          { text: "Un couteau, silencieux et discret.", camp: "Siames" }
-        ]
-      },
-      {
-        question: "Ton plus grand défaut serait :",
-        answers: [
-          { text: "L’impulsivité.", camp: "Carmine" },
-          { text: "La méfiance excessive.", camp: "Siames" }
-        ]
-      },
-      {
     question: "Face à une trahison, ta réaction serait :",
     answers: [
       { text: "Répondre par la force, immédiatement.", camp: "Carmine" },
@@ -238,7 +192,7 @@
     question: "Ton rôle idéal dans un groupe :",
     answers: [
       { text: "Le stratège, celui qui tire les ficelles.", camp: "Siames" },
-      { text: "Le chef charismatique qu’on suit sans discuter.", camp: "Carmine" },
+      { text: "Le chef qu’on suit sans discuter.", camp: "Carmine" },
       { text: "Le protecteur loyal envers les siens.", camp: "Siames" },
       { text: "L’homme d’action, le bras armé.", camp: "Carmine" }
     ]
@@ -314,14 +268,7 @@
       { text: "Une réponse instinctive à toute provocation.", camp: "Carmine" },
       { text: "Un moyen efficace quand il est planifié.", camp: "Siames" }
     ]
-  },
-      {
-        question: "Un mot qui te décrit le mieux :",
-        answers: [
-          { text: "Passionné.", camp: "Carmine" },
-          { text: "Calculateur.", camp: "Siames" }
-        ]
-      }
+  }
     ];
 
     function startQuiz() {
