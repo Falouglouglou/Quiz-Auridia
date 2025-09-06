@@ -180,7 +180,7 @@
 
     const questions = [
       {
-    question: "Face à une trahison, ta réaction serait :",
+    question: "1. Face à une trahison, ta réaction serait :",
     answers: [
       { text: "Répondre par la force, immédiatement.", camp: "Carmine" },
       { text: "Attendre le bon moment pour frapper.", camp: "Siames" },
@@ -189,7 +189,7 @@
     ]
   },
   {
-    question: "Ton rôle idéal dans un groupe :",
+    question: "2. Ton rôle idéal dans un groupe :",
     answers: [
       { text: "Le stratège, celui qui tire les ficelles.", camp: "Siames" },
       { text: "Le chef qu’on suit sans discuter.", camp: "Carmine" },
@@ -198,7 +198,7 @@
     ]
   },
   {
-    question: "Tu es face à une personne en détresse. Que fais-tu ?",
+    question: "3. Tu es face à une personne en détresse. Que fais-tu ?",
     answers: [
       { text: "Je passe mon chemin, ce n’est pas mon problème.", camp: "Carmine" },
       { text: "Je l’utilise pour obtenir ce que je veux.", camp: "Carmine" },
@@ -207,7 +207,7 @@
     ]
   },
   {
-    question: "Si tu devais infiltrer un lieu ennemi :",
+    question: "4. Si tu devais infiltrer un lieu ennemi :",
     answers: [
       { text: "Entrer de force par la grande porte.", camp: "Carmine" },
       { text: "Trouver une entrée secondaire et discrète.", camp: "Siames" },
@@ -216,7 +216,7 @@
     ]
   },
   {
-    question: "Ton rapport à la famille est :",
+    question: "5. Ton rapport à la famille est :",
     answers: [
       { text: "Un groupe qu’on doit protéger coûte que coûte.", camp: "Siames" },
       { text: "Chacun sa merde.", camp: "Carmine" },
@@ -225,7 +225,7 @@
     ]
   },
   {
-    question: "Dans une négociation, tu es plutôt :",
+    question: "6. Dans une négociation, tu es plutôt :",
     answers: [
       { text: "Celui qui impose ses conditions brutalement.", camp: "Carmine" },
       { text: "Celui qui écoute et manipule les mots.", camp: "Siames" },
@@ -234,7 +234,7 @@
     ]
   },
   {
-    question: "Quelle devise te correspond le mieux ?",
+    question: "7. Quelle devise te correspond le mieux ?",
     answers: [
       { text: "Se faire craindre, c'est se faire respecter.", camp: "Carmine" },
       { text: "Le silence est parfois plus violent qu'un coup de poing.", camp: "Siames" },
@@ -243,7 +243,7 @@
     ]
   },
   {
-    question: "Quand tu découvre un secret…",
+    question: "8. Quand tu découvre un secret…",
     answers: [
       { text: "Je m’en sers comme monnaie d’échange.", camp: "Carmine" },
       { text: "Je le garde, mais je sais le sortir au moment parfait.", camp: "Siames" },
@@ -252,12 +252,66 @@
     ]
   },
   {
-    question: "T'as besoin d'énergie, qu'est-ce que tu prends ?",
+    question: "9. T'as besoin d'énergie, qu'est-ce que tu prends ?",
     answers: [
       { text: "Un café.", camp: "Siames" },
       { text: "De l'eau. Qui a dit que j'allais la boire ?", camp: "Siames" },
       { text: "Une Monster.", camp: "Carmine" },
       { text: "Une soupe aux oignons.", camp: "Siames" }
+    ]
+  },
+  {
+    question: "10. Au restaurant, ton ami décide de payer ton addition. Quelle serait ta réaction ?",
+    answers: [
+      { text: "Tu es content et tu le remercies.", camp: "Carmine" },
+      { text: "Tu acceptes seulement parce que ça lui fait plaisir.", camp: "Siames" },
+      { text: "Tu fais comme si tu n'avais rien entendu et tu paies toi-même ton addition.", camp: "Siames" },
+      { text: "Tu refuses immédiatement et tu dis que tu peux payer toi-même.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "11. Lors d'une apocalypse zombie, comment réagirais-tu ?",
+    answers: [
+      { text: "Tu paniques et tu cours partout sans vraiment réfléchir.", camp: "Siames" },
+      { text: "Tu ne comprends pas ce qu'il se passe et tu t'en fiches.", camp: "Carmine" },
+      { text: "Tu essaies de trouver un remède pour soigner les infectés.", camp: "Siames" },
+      { text: "Tu les tues tous sans hésiter.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "12. Ton ami se fait agresser dans la rue par deux individus, ta réaction :",
+    answers: [
+      { text: "Je ne fais rien, il doit savoir se débrouiller.", camp: "Carmine" },
+      { text: "Je vais le défendre, peu importe s'ils ont l'air plus forts que moi.", camp: "Siames" },
+      { text: "Je tente de les charmer.", camp: "Siames" },
+      { text: "Je crie très fort en espérant leur faire peur.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "13. Le pire dans un travail, c'est :",
+    answers: [
+      { text: "Les horaires.", camp: "Siames" },
+      { text: "Les tenues imposées. Je veux pouvoir m'habiller comme je veux.", camp: "Siames" },
+      { text: "La hiérarchie.", camp: "Carmine" },
+      { text: "Les collègues.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "14. Quelle est la meilleure option pour te remonter le moral ?",
+    answers: [
+      { text: "Travailler. Je me focus dessus pour oublier le négatif.", camp: "Siames" },
+      { text: "Faire du sport.", camp: "Carmine" },
+      { text: "Voir la personne que j'aime.", camp: "Siames" },
+      { text: "Apprendre une mauvaise nouvelle à quelqu'un que je déteste.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "15. QUESTION",
+    answers: [
+      { text: "REPONSE A", camp: "Siames" },
+      { text: "REPONSE B", camp: "Siames" },
+      { text: "REPONSE C", camp: "Carmine" },
+      { text: "REPONSE D", camp: "Carmine" }
     ]
   },
   {
