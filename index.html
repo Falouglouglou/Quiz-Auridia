@@ -308,7 +308,7 @@
   {
     question: "15. QUESTION",
     answers: [
-      { text: "REPONSE A", camp: "Siames" },
+      { text: "REPONSE A", camp: "Siames", image: "https://imgur.com/RWoEEU8" },
       { text: "REPONSE B", camp: "Siames" },
       { text: "REPONSE C", camp: "Carmine" },
       { text: "REPONSE D", camp: "Carmine" }
@@ -332,19 +332,36 @@
     }
 
     function showQuestion() {
-      const q = questions[currentQuestion];
-      questionEl.textContent = q.question;
-      answersEl.innerHTML = "";
-      selectedAnswer = null;
+  const q = questions[currentQuestion];
+  questionEl.textContent = q.question;
+  answersEl.innerHTML = "";
+  selectedAnswer = null;
 
-      q.answers.forEach((a) => {
-        const btn = document.createElement("div");
-        btn.classList.add("answer");
-        btn.textContent = a.text;
-        btn.onclick = () => selectAnswer(btn, a.camp);
-        answersEl.appendChild(btn);
-      });
+  q.answers.forEach((a) => {
+    const btn = document.createElement("div");
+    btn.classList.add("answer");
+
+    // Si une image est définie, on l’ajoute
+    if (a.image) {
+      const img = document.createElement("img");
+      img.src = a.image;
+      img.alt = a.text;
+      img.style.width = "40px";   // taille (modifiable)
+      img.style.marginRight = "10px";
+      btn.appendChild(img);
     }
+
+    // Texte
+    const span = document.createElement("span");
+    span.textContent = a.text;
+    btn.appendChild(span);
+
+    // Clique
+    btn.onclick = () => selectAnswer(btn, a.camp);
+    answersEl.appendChild(btn);
+  });
+}
+
 
     function selectAnswer(element, camp) {
       const allAnswers = document.querySelectorAll(".answer");
