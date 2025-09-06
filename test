@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Carmine vs Siames</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #eee;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .intro {
+      padding: 50px 20px;
+    }
+
+    .intro h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    .intro p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+
+    .intro button {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: linear-gradient(90deg, #b22222, #6a0dad);
+      color: #fff;
+      transition: transform 0.2s;
+    }
+
+    .intro button:hover {
+      transform: scale(1.05);
+    }
+
+    .quiz {
+      display: none;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .balance-bar {
+      width: 100%;
+      height: 25px;
+      background: #333;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      display: flex;
+    }
+
+    .balance-carmine {
+      background: #b22222;
+      height: 100%;
+      width: 50%;
+      transition: width 0.5s;
+    }
+
+    .balance-siames {
+      background: #6a0dad;
+      height: 100%;
+      width: 50%;
+      transition: width 0.5s;
+    }
+
+    .question {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .answer {
+      background: #222;
+      padding: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .answer:hover {
+      background: #333;
+      transform: scale(1.03);
+    }
+
+    .answer.selected {
+      border: 2px solid #fff;
+      background: #444;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #444;
+      color: #fff;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: #666;
+    }
+
+    .result {
+      font-size: 1.5em;
+      margin-top: 30px;
+    }
+
+    .carmine {
+      color: #b22222;
+      font-weight: bold;
+    }
+
+    .siames {
+      color: #6a0dad;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <!-- PAGE D’INTRO -->
+  <div class="intro" id="intro">
+    <h1>Découvre ton camp</h1>
+    <p>Ce test te révélera si ton cœur appartient aux <span class="carmine">Carmine</span> ou aux <span class="siames">Siames</span>. Réponds honnêtement aux questions pour découvrir ton destin...</p>
+    <button onclick="startQuiz()">Commencer le test</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="quiz" id="quiz">
+    <div class="balance-bar">
+      <div class="balance-carmine" id="carmineBar"></div>
+      <div class="balance-siames" id="siamesBar"></div>
+    </div>
+    <div id="question-container">
+      <div class="question" id="question"></div>
+      <div class="answers" id="answers"></div>
+      <button onclick="nextQuestion()">Suivant</button>
+    </div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const intro = document.getElementById("intro");
+    const quiz = document.getElementById("quiz");
+    const questionEl = document.getElementById("question");
+    const answersEl = document.getElementById("answers");
+    const resultEl = document.getElementById("result");
+    const carmineBar = document.getElementById("carmineBar");
+    const siamesBar = document.getElementById("siamesBar");
+
+    let currentQuestion = 0;
+    let carmineScore = 0;
+    let siamesScore = 0;
+    let selectedAnswer = null;
+
+    const questions = [
+      {
+    question: "1. Face à une trahison, ta réaction serait :",
+    answers: [
+      { text: "Répondre par la force, immédiatement.", camp: "Carmine" },
+      { text: "Attendre le bon moment pour frapper.", camp: "Siames" },
+      { text: "Humilier la personne publiquement.", camp: "Carmine" },
+      { text: "Couper les ponts sans laisser de traces.", camp: "Siames" }
+    ]
+  },
+  {
+    question: "2. Ton rôle idéal dans un groupe :",
+    answers: [
+      { text: "Le stratège, celui qui tire les ficelles.", camp: "Siames" },
+      { text: "Le chef qu’on suit sans discuter.", camp: "Carmine" },
+      { text: "Le protecteur loyal envers les siens.", camp: "Siames" },
+      { text: "L’homme d’action, le bras armé.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "3. Tu es face à une personne en détresse. Que fais-tu ?",
+    answers: [
+      { text: "Je passe mon chemin, ce n’est pas mon problème.", camp: "Carmine" },
+      { text: "Je l’utilise pour obtenir ce que je veux.", camp: "Carmine" },
+      { text: "Je l’aide si ça ne me met pas en danger.", camp: "Siames" },
+      { text: "Je la protège parce que ça peut renforcer ma réputation.", camp: "Siames" }
+    ]
+  },
+  {
+    question: "4. Si tu devais infiltrer un lieu ennemi :",
+    answers: [
+      { text: "Entrer de force par la grande porte.", camp: "Carmine" },
+      { text: "Trouver une entrée secondaire et discrète.", camp: "Siames" },
+      { text: "Créer une diversion et profiter du chaos.", camp: "Carmine" },
+      { text: "Soudoyer quelqu’un pour ouvrir les portes.", camp: "Siames" }
+    ]
+  },
+  {
+    question: "5. Ton rapport à la famille est :",
+    answers: [
+      { text: "Un groupe qu’on doit protéger coûte que coûte.", camp: "Siames" },
+      { text: "Chacun sa merde.", camp: "Carmine" },
+      { text: "Ma colonne vertébrale sans laquelle je ne suis rien. Mais ils ne sont rien sans moi non plus.", camp: "Siames" },
+      { text: "Une hiérarchie bien définie. On doit obéir aux aînés.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "6. Dans une négociation, tu es plutôt :",
+    answers: [
+      { text: "Celui qui impose ses conditions brutalement.", camp: "Carmine" },
+      { text: "Celui qui écoute et manipule les mots.", camp: "Siames" },
+      { text: "Celui qui menace subtilement pour obtenir gain de cause.", camp: "Siames" },
+      { text: "Celui qui se sert d’informations pour déstabiliser.", camp: "Siames" }
+    ]
+  },
+  {
+    question: "7. Quelle devise te correspond le mieux ?",
+    answers: [
+      { text: "Se faire craindre, c'est se faire respecter.", camp: "Carmine" },
+      { text: "Le silence est parfois plus violent qu'un coup de poing.", camp: "Siames" },
+      { text: "Un esprit rusé y trouvera toujours son avantage.", camp: "Siames" },
+      { text: "Un seul coup bien placé vaut mille avertissements.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "8. Quand tu découvre un secret…",
+    answers: [
+      { text: "Je m’en sers comme monnaie d’échange.", camp: "Carmine" },
+      { text: "Je le garde, mais je sais le sortir au moment parfait.", camp: "Siames" },
+      { text: "Je le crie presque, ça me rend important.", camp: "Carmine" },
+      { text: "Je l’ensevelis, personne n’en saura rien.", camp: "Siames" }
+    ]
+  },
+  {
+    question: "9. T'as besoin d'énergie, qu'est-ce que tu prends ?",
+    answers: [
+      { text: "Un café.", camp: "Siames" },
+      { text: "De l'eau. Qui a dit que j'allais la boire ?", camp: "Siames" },
+      { text: "Une Monster.", camp: "Carmine" },
+      { text: "Une soupe aux oignons.", camp: "Siames" }
+    ]
+  },
+  {
+    question: "10. Au restaurant, ton ami décide de payer ton addition. Quelle serait ta réaction ?",
+    answers: [
+      { text: "Tu es content et tu le remercies.", camp: "Carmine" },
+      { text: "Tu acceptes seulement parce que ça lui fait plaisir.", camp: "Siames" },
+      { text: "Tu fais comme si tu n'avais rien entendu et tu paies toi-même ton addition.", camp: "Siames" },
+      { text: "Tu refuses immédiatement et tu dis que tu peux payer toi-même.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "11. Lors d'une apocalypse zombie, comment réagirais-tu ?",
+    answers: [
+      { text: "Tu paniques et tu cours partout sans vraiment réfléchir.", camp: "Siames" },
+      { text: "Tu ne comprends pas ce qu'il se passe et tu t'en fiches.", camp: "Carmine" },
+      { text: "Tu essaies de trouver un remède pour soigner les infectés.", camp: "Siames" },
+      { text: "Tu les tues tous sans hésiter.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "12. Ton ami se fait agresser dans la rue par deux individus, ta réaction :",
+    answers: [
+      { text: "Je ne fais rien, il doit savoir se débrouiller.", camp: "Carmine" },
+      { text: "Je vais le défendre, peu importe s'ils ont l'air plus forts que moi.", camp: "Siames" },
+      { text: "Je tente de les charmer.", camp: "Siames" },
+      { text: "Je crie très fort en espérant leur faire peur.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "13. Le pire dans un travail, c'est :",
+    answers: [
+      { text: "Les horaires.", camp: "Siames" },
+      { text: "Les tenues imposées. Je veux pouvoir m'habiller comme je veux.", camp: "Siames" },
+      { text: "La hiérarchie.", camp: "Carmine" },
+      { text: "Les collègues.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "14. Quelle est la meilleure option pour te remonter le moral ?",
+    answers: [
+      { text: "Travailler. Je me focus dessus pour oublier le négatif.", camp: "Siames" },
+      { text: "Faire du sport.", camp: "Carmine" },
+      { text: "Voir la personne que j'aime.", camp: "Siames" },
+      { text: "Apprendre une mauvaise nouvelle à quelqu'un que je déteste.", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "15. QUESTION",
+    answers: [
+      { text: "REPONSE A", camp: "Siames" },
+      { text: "REPONSE B", camp: "Siames" },
+      { text: "REPONSE C", camp: "Carmine" },
+      { text: "REPONSE D", camp: "Carmine" }
+    ]
+  },
+  {
+    question: "Ton rapport à la violence est :",
+    answers: [
+      { text: "Un outil indispensable pour se faire respecter.", camp: "Carmine" },
+      { text: "Une arme qu’on n’utilise qu’en dernier recours.", camp: "Siames" },
+      { text: "Une réponse instinctive à toute provocation.", camp: "Carmine" },
+      { text: "Un moyen efficace quand il est planifié.", camp: "Siames" }
+    ]
+  }
+    ];
+
+    function startQuiz() {
+      intro.style.display = "none";
+      quiz.style.display = "block";
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      questionEl.textContent = q.question;
+      answersEl.innerHTML = "";
+      selectedAnswer = null;
+
+      q.answers.forEach((a) => {
+        const btn = document.createElement("div");
+        btn.classList.add("answer");
+        btn.textContent = a.text;
+        btn.onclick = () => selectAnswer(btn, a.camp);
+        answersEl.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(element, camp) {
+      const allAnswers = document.querySelectorAll(".answer");
+      allAnswers.forEach(ans => ans.classList.remove("selected"));
+      element.classList.add("selected");
+      selectedAnswer = camp;
+    }
+
+    function updateBar() {
+      const total = carmineScore + siamesScore || 1;
+      const carminePercent = (carmineScore / total) * 100;
+      const siamesPercent = (siamesScore / total) * 100;
+      carmineBar.style.width = carminePercent + "%";
+      siamesBar.style.width = siamesPercent + "%";
+    }
+
+    function nextQuestion() {
+      if (!selectedAnswer) return alert("Choisis une réponse !");
+      if (selectedAnswer === "Carmine") carmineScore++;
+      if (selectedAnswer === "Siames") siamesScore++;
+
+      updateBar();
+
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById("question-container").style.display = "none";
+      if (carmineScore > siamesScore) {
+        resultEl.innerHTML = `Tu appartiens aux <span class="carmine">Carmine</span> 🔥`;
+      } else if (siamesScore > carmineScore) {
+        resultEl.innerHTML = `Tu appartiens aux <span class="siames">Siames</span> 🕵️‍♂️`;
+      } else {
+        resultEl.innerHTML = `Ton cœur balance entre les <span class="carmine">Carmine</span> et les <span class="siames">Siames</span>...`;
+      }
+    }
+  </script>
+</body>
+</html>
