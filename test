@@ -306,14 +306,14 @@
     ]
   },
   {
-  question: "15. QUESTION",
-  answers: [
-    { text: "REPONSE A", camp: "Siames", image: "https://imgur.com/RWoEEU8" },
-    { text: "REPONSE B", camp: "Siames", image: "https://imgur.com/tjfTEMp" },
-    { text: "REPONSE C", camp: "Carmine", image: "https://imgur.com/0n91OXG" },
-    { text: "REPONSE D", camp: "Carmine", image: "https://imgur.com/McIuNg9" }
-  ]
-},
+    question: "15. QUESTION",
+    answers: [
+      { text: "REPONSE A", camp: "Siames" },
+      { text: "REPONSE B", camp: "Siames" },
+      { text: "REPONSE C", camp: "Carmine" },
+      { text: "REPONSE D", camp: "Carmine" }
+    ]
+  },
   {
     question: "Ton rapport à la violence est :",
     answers: [
