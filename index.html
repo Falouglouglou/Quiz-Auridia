@@ -99,20 +99,20 @@
       text-align: center;
     }
 
-    .answer {
+   .answer {
       display: flex;
-      flex-direction: left;   /* éléments empilés (texte au-dessus, image en dessous) */
-      align-items: center;      /* centre horizontalement */
-      justify-content: center;
-      text-align: center;
+      align-items: center;   /* aligne verticalement image + texte */
+      justify-content: flex-start; /* texte à droite de l'image */
+      gap: 10px;             /* espace entre image et texte */
+      text-align: left;      /* pour éviter que le texte soit centré bizarrement */
     }
 
     .answer img {
-      width: 120px;   /* taille réglable */
-      height: auto;
-      margin-top: 10px; /* espace entre texte et image */
-      border-radius: 6px; /* optionnel */
+      width: 90px;   /* taille réglable */
+      height: auto;  /* garde les proportions */
+      border-radius: 6px; /* optionnel : arrondi les bords */
     }
+
 
 
 
