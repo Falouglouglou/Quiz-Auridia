@@ -605,9 +605,15 @@
       const total = carmineScore + siamesScore || 1;
       const carminePercent = (carmineScore / total) * 100;
       const siamesPercent = (siamesScore / total) * 100;
+
       carmineBar.style.width = carminePercent + "%";
       siamesBar.style.width = siamesPercent + "%";
+
+      // Mise à jour des textes
+      document.getElementById("carminePercent").textContent = Math.round(carminePercent) + "%";
+      document.getElementById("siamesPercent").textContent = Math.round(siamesPercent) + "%";
     }
+
     
 
     function nextQuestion() {
