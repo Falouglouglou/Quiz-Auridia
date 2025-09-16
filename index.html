@@ -58,28 +58,15 @@
       overflow: hidden;
       margin-bottom: 30px;
       display: flex;
+      position: relative; /* nécessaire pour positionner les % */
     }
-
-    .percent-text {
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  font-size: 14px;
-  font-weight: bold;
-  color: #fff;
-  pointer-events: none;
-}
-
-.balance-bar {
-  position: relative;
-}
-
 
     .balance-carmine {
       background: #b22222;
       height: 100%;
       width: 50%;
       transition: width 0.5s;
+      position: relative;
     }
 
     .balance-siames {
@@ -87,8 +74,18 @@
       height: 100%;
       width: 50%;
       transition: width 0.5s;
+      position: relative;
     }
 
+    .percent-text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      pointer-events: none;
+    }
 
     .question {
       font-size: 1.3em;
@@ -113,6 +110,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
+      flex-direction: column; /* utile si tu ajoutes des images */
     }
 
     .answer:hover {
@@ -169,8 +167,12 @@
   <!-- QUIZ -->
   <div class="quiz" id="quiz">
     <div class="balance-bar">
-      <div class="balance-carmine" id="carmineBar"></div>
-      <div class="balance-siames" id="siamesBar"></div>
+      <div class="balance-carmine" id="carmineBar">
+        <span id="carminePercent" class="percent-text"></span>
+      </div>
+      <div class="balance-siames" id="siamesBar">
+        <span id="siamesPercent" class="percent-text"></span>
+      </div>
     </div>
     <div id="question-container">
       <div class="question" id="question"></div>
@@ -188,6 +190,8 @@
     const resultEl = document.getElementById("result");
     const carmineBar = document.getElementById("carmineBar");
     const siamesBar = document.getElementById("siamesBar");
+    const carminePercentEl = document.getElementById("carminePercent");
+    const siamesPercentEl = document.getElementById("siamesPercent");
 
     let currentQuestion = 0;
     let carmineScore = 0;
@@ -196,395 +200,62 @@
 
     const questions = [
       {
-    question: "1. Face à une trahison, ta réaction serait :",
-    answers: [
-      { text: "Répondre par la force, immédiatement.", camp: "Carmine" },
-      { text: "Attendre le bon moment pour frapper.", camp: "Siames" },
-      { text: "Humilier la personne publiquement.", camp: "Carmine" },
-      { text: "Couper les ponts sans laisser de traces.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "2. Si tu devais être connu pour une qualité…",
-    answers: [
-      { text: "Ton humour.", camp: "Carmine" },
-      { text: "Ton intelligence.", camp: "Siames" },
-      { text: "Ta loyauté.", camp: "Siames" },
-      { text: "Ta force.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "3. Tu es face à une personne en détresse. Que fais-tu ?",
-    answers: [
-      { text: "Je passe mon chemin, ce n’est pas mon problème.", camp: "Carmine" },
-      { text: "Je l’utilise pour obtenir ce que je veux.", camp: "Carmine" },
-      { text: "Je l’aide si ça ne me met pas en danger.", camp: "Siames" },
-      { text: "Je la protège parce que ça peut renforcer ma réputation.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "4. Si tu devais infiltrer un lieu ennemi :",
-    answers: [
-      { text: "Entrer de force par la grande porte.", camp: "Carmine" },
-      { text: "Trouver une entrée secondaire et discrète.", camp: "Siames" },
-      { text: "Créer une diversion et profiter du chaos.", camp: "Carmine" },
-      { text: "Soudoyer quelqu’un pour ouvrir les portes.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "5. Ton rapport à la famille est :",
-    answers: [
-      { text: "Un groupe qu’on doit protéger coûte que coûte.", camp: "Siames" },
-      { text: "Chacun sa merde.", camp: "Carmine" },
-      { text: "Ma colonne vertébrale sans laquelle je ne suis rien. Mais ils ne sont rien sans moi non plus.", camp: "Siames" },
-      { text: "Une hiérarchie bien définie. On doit obéir aux aînés.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "6. Dans une négociation, tu es plutôt :",
-    answers: [
-      { text: "Celui qui impose ses conditions brutalement.", camp: "Carmine" },
-      { text: "Celui qui écoute et manipule les mots.", camp: "Siames" },
-      { text: "Celui qui menace subtilement pour obtenir gain de cause.", camp: "Siames" },
-      { text: "Celui qui se sert d’informations pour déstabiliser.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "7. Quelle devise te correspond le mieux ?",
-    answers: [
-      { text: "Se faire craindre, c'est se faire respecter.", camp: "Carmine" },
-      { text: "Le silence est parfois plus violent qu'un coup de poing.", camp: "Siames" },
-      { text: "Un esprit rusé y trouvera toujours son avantage.", camp: "Siames" },
-      { text: "Un seul coup bien placé vaut mille avertissements.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "8. Un pote te confie un gros secret.",
-    answers: [
-      { text: "Tu le partages avec tes amis.", camp: "Carmine" },
-      { text: "Tu le gardes pour toi, coûte que coûte.", camp: "Siames" },
-      { text: "Tu attends le moment parfait pour t’en servir.", camp: "Carmine" },
-      { text: "Tu bluffes en l’utilisant sans jamais le révéler vraiment.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "9. T'as besoin d'énergie, qu'est-ce que tu prends ?",
-    answers: [
-      { text: "Un café.", camp: "Siames" },
-      { text: "De l'eau. Qui a dit que j'allais la boire ?", camp: "Siames" },
-      { text: "Une Monster.", camp: "Carmine" },
-      { text: "Une soupe aux oignons.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "10. Au restaurant, ton ami décide de payer ton addition. Quelle serait ta réaction ?",
-    answers: [
-      { text: "Tu es content et tu le remercies.", camp: "Carmine" },
-      { text: "Tu acceptes seulement parce que ça lui fait plaisir.", camp: "Siames" },
-      { text: "Tu fais comme si tu n'avais rien entendu et tu paies toi-même ton addition.", camp: "Siames" },
-      { text: "Tu refuses immédiatement et tu dis que tu peux payer toi-même.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "11. Un zombie t’attaque, tu fais quoi ?",
-    answers: [
-      { text: "Tu cours aussi vite que possible sans vraiment réfléchir.", camp: "Siames" },
-      { text: "Tu improvises une arme avec ce qui traîne.", camp: "Carmine" },
-      { text: "Tu essaies de te cacher en silence.", camp: "Siames" },
-      { text: "Tu pousses quelqu’un d’autre devant lui pour gagner du temps.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "12. Ton ami se fait agresser dans la rue par deux individus, ta réaction :",
-    answers: [
-      { text: "Je ne fais rien, il doit savoir se débrouiller.", camp: "Carmine" },
-      { text: "Je vais le défendre, peu importe s'ils ont l'air plus forts que moi.", camp: "Siames" },
-      { text: "Je tente de les charmer.", camp: "Siames" },
-      { text: "Je crie très fort en espérant leur faire peur.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "13. Le pire dans un travail, c'est :",
-    answers: [
-      { text: "Les horaires.", camp: "Siames" },
-      { text: "Les tenues imposées. Je veux pouvoir m'habiller comme je veux.", camp: "Siames" },
-      { text: "La hiérarchie.", camp: "Carmine" },
-      { text: "Les collègues.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "14. Quelle est la meilleure option pour te remonter le moral ?",
-    answers: [
-      { text: "Travailler. Je me focus dessus pour oublier le négatif.", camp: "Siames" },
-      { text: "Faire du sport.", camp: "Carmine" },
-      { text: "Voir la personne que j'aime.", camp: "Siames" },
-      { text: "Apprendre une mauvaise nouvelle à quelqu'un que je déteste.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "15. Tu dois organiser une soirée. Comment tu t’y prends ?",
-    answers: [
-      { text: "Tu invites tout le monde, plus on est, mieux c’est.", camp: "Carmine" },
-      { text: "Tu fais une petite liste sélective pour garder une bonne ambiance.", camp: "Siames" },
-      { text: "Tu laisses les choses se faire au hasard, les gens ramènent qui ils veulent.", camp: "Carmine" },
-      { text: "Tu refuses, c’est trop de boulot, quelqu’un d’autre s’en chargera.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "16. Tu es en retard pour un rendez-vous. Tu fais quoi ?",
-    answers: [
-      { text: "Tu préviens avec un message d’excuse.", camp: "Siames" },
-      { text: "Tu accélères le pas et tu espères que ça passe.", camp: "Siames" },
-      { text: "Tu inventes une excuse crédible en arrivant.", camp: "Carmine" },
-      { text: "Tu fais comme si de rien n’était, c’est eux qui attendent.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "17. Quand tu cuisines, c’est quoi ton approche ?",
-    answers: [
-      { text: "Tu suis la recette à la lettre.", camp: "Siames" },
-      { text: "Tu improvises avec ce qu’il y a dans le frigo.", camp: "Carmine" },
-      { text: "Tu commandes UberEat, beaucoup plus simple.", camp: "Carmine" },
-      { text: "Tu expérimentes, quitte à rater mais au moins tu crées. Une autre façon de dire que tu mélanges un peu n'importe quoi...", camp: "Siames" }
-    ]
-  },
-  {
-    question: "19. Tu trouves un portefeuille par terre. Que fais-tu ?",
-    answers: [
-      { text: "Tu le rapportes à la police.", camp: "Siames" },
-      { text: "Tu cherches à retrouver le propriétaire toi-même.", camp: "Siames" },
-      { text: "Tu prends l’argent et tu jettes le reste.", camp: "Carmine" },
-      { text: "Tu le gardes en attendant que quelqu’un réclame.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "20. Tu te réveilles en retard un matin. Tu sacrifies quoi ?",
-    answers: [
-      { text: "Le petit-déjeuner.", camp: "Siames" },
-      { text: "La douche, tu iras plus vite.", camp: "Siames" },
-      { text: "Ta tenue, tu mets ce qui te tombe sous la main.", camp: "Carmine" },
-      { text: "Rien, tu assumes d’arriver encore plus en retard.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "21. Tu dois faire un choix important. Tu te bases sur…",
-    answers: [
-      { text: "Ton instinct.", camp: "Carmine" },
-      { text: "L’avis de proches de confiance.", camp: "Siames" },
-      { text: "Les faits, chiffres et preuves.", camp: "Siames" },
-      { text: "Ce qui t’arrange le plus sur le moment.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "22. Tu deviens invisible pendant une heure. Que fais-tu ?",
-    answers: [
-      { text: "Tu espionnes des gens pour savoir ce qu'ils font quand tu n'es pas là.", camp: "Siames" },
-      { text: "Tu fais une mauvaise blague à ton entourage.", camp: "Carmine" },
-      { text: "Tu t’introduis dans un endroit interdit.", camp: "Carmine" },
-      { text: "Tu profites juste pour avoir la paix, tranquille.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "23. Dans un karaoké, tu chantes quoi ?",
-    answers: [
-      { text: "Un classique que tout le monde connaît pour pas être le seul à chanter.", camp: "Siames" },
-      { text: "Une chanson épique sur laquelle tu te casse la voix.", camp: "Carmine" },
-      { text: "Un vieux tube ringard juste pour rire, et pour que tout le monde oublie que tu chantes faux.", camp: "Siames" },
-      { text: "Tu refuses de chanter, flemme.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "24. Ton pire cauchemar serait…",
-    answers: [
-      { text: "Te retrouver nu en public.", camp: "Siames" },
-      { text: "Être poursuivi par 1 000 pigeons.", camp: "Carmine" },
-      { text: "Que plus jamais internet n’existe.", camp: "Siames" },
-      { text: "Te retrouver enfermé dans une pièce dont le papier peint sont les pieds de Falou.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "25. Si tu devais gérer un business illégal, ce serait quoi ?",
-    answers: [
-      { text: "Un casino clandestin.", camp: "Carmine" },
-      { text: "Des soirées clandestines.", camp: "Siames" },
-      { text: "Traffic de puff goût barbe à papa.", camp: "Siames" },
-      { text: "Des paris sur des combats.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "26. Ton pote arrive en retard d’une heure.",
-    answers: [
-      { text: "Tu lui fais la gueule tout le reste de la journée.", camp: "Siames" },
-      { text: "Tu fais une vanne pour lui mettre la honte.", camp: "Carmine" },
-      { text: "Tu ne dis rien, mais tu prends note dans ta tête.", camp: "Siames" },
-      { text: "Tu pars, il n’avait qu’à être là à l’heure.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "27. Quand tu entends une rumeur sur toi…",
-    answers: [
-      { text: "Tu l’ignores, les gens parlent toujours.", camp: "Siames" },
-      { text: "Tu cherches qui a balancé.", camp: "Carmine" },
-      { text: "Tu t’en sers à ton avantage.", camp: "Siames" },
-      { text: "Tu détruis la rumeur à la source.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "28. À une soirée, tu es plutôt…",
-    answers: [
-      { text: "Celui qui fait le show au milieu.", camp: "Carmine" },
-      { text: "Celui qui observe dans un coin et parle seulement avec ses potes.", camp: "Siames" },
-      { text: "Celui qui parle avec tous ceux qu'il croise.", camp: "Carmine" },
-      { text: "Celui qui disparaît avant la fin.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "29. Tu dois choisir une cachette pour un butin.",
-    answers: [
-      { text: "Enterré dans un jardin.", camp: "Carmine" },
-      { text: "Derrière un faux mur.", camp: "Siames" },
-      { text: "Tu le caches à la vue de tous, personne ne s’en douterait.", camp: "Siames" },
-      { text: "Pourquoi le cacher ? Je vais surtout me la péter.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "30. Ton téléphone tombe à 2% de batterie.",
-    answers: [
-      { text: "Tu paniques et cherches une prise partout.", camp: "Siames" },
-      { text: "Tu l’éteins pour économiser.", camp: "Siames" },
-      { text: "Tu voles un chargeur à quelqu’un.", camp: "Carmine" },
-      { text: "Je fais comme si je n'avais rien vu. Je sais que je le regretterai.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "31. Un voisin fait la fête et t’empêche de dormir.",
-    answers: [
-      { text: "Tu mets des écouteurs et tu subis.", camp: "Siames" },
-      { text: "Tu te joins à la fête.", camp: "Carmine" },
-      { text: "Tu vas taper à la porte pour parler avec le voisin.", camp: "Carmine" },
-      { text: "Tu appelles la police.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "32. Tu arrives en retard à un rendez-vous et on te demande de te justifier. Tu dis quoi ?",
-    answers: [
-      { text: "Tu ne donnes aucune excuse.", camp: "Siames" },
-      { text: "« Je me suis perdu. »", camp: "Siames" },
-      { text: "« Y’avait trop de bouchons. »", camp: "Carmine" },
-      { text: "« Fallait bien que je me fasse désirer. »", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "33. Quand tu es en colère…",
-    answers: [
-      { text: "Tu cries sans réfléchir.", camp: "Carmine" },
-      { text: "Tu te tais et tu bouillonnes.", camp: "Siames" },
-      { text: "Tu tapes dans le mur gros.", camp: "Carmine" },
-      { text: "Tu souris. Les autres feraient mieux de courir. Trop Dark.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "34. Ton rapport à la violence est :",
-    answers: [
-      { text: "Un outil indispensable pour se faire respecter.", camp: "Carmine" },
-      { text: "Une arme qu’on n’utilise qu’en dernier recours.", camp: "Siames" },
-      { text: "Une réponse instinctive à toute provocation.", camp: "Carmine" },
-      { text: "Un moyen efficace quand il est planifié.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "35. Si tu étais dans Harry Potter, tu serais plutôt…",
-    answers: [
-      { text: "Gryffondor, fonceur et courageux.", camp: "Carmine" },
-      { text: "Poufsouffle, loyal et discret.", camp: "Siames" },
-      { text: "Serpentard, ambitieux et malin.", camp: "Carmine" },
-      { text: "Serdaigle, stratège et réfléchi.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "36. Dans un jeu de rôle (style Donjons & Dragons), tu choisis…",
-    answers: [
-      { text: "Guerrier/Mage", camp: "Carmine" },
-      { text: "Voleur/Assassin", camp: "Siames" },
-      { text: "Clerc/Soigneur", camp: "Siames" },
-      { text: "Barde.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "37. Dans un film d’horreur, tu serais…",
-    answers: [
-      { text: "Celui qui meurt en premier.", camp: "Siames" },
-      { text: "Le tueur.", camp: "Carmine" },
-      { text: "Celui qui sacrifie les autres pour s’en sortir.", camp: "Carmine" },
-      { text: "Celui qui trouve le plan de survie.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "38. Ton rapport avec les escaliers ?",
-    answers: [
-      { text: "Tu les montes deux par deux comme un ninja.", camp: "Carmine" },
-      { text: "Tu râles dès qu’il y en a plus de 10.", camp: "Siames" },
-      { text: "Tu prends toujours l’ascenseur, même pour 1 étage.", camp: "Siames" },
-      { text: "Tu t’assois dessus et tu réfléchis à une bonne raison pour les monter.", camp: "Carmine" }
-    ]
-  },
-  {
-    question: "39. Ton animal totem ?",
-    answers: [
-      { text: "Un lama grincheux.", camp: "Siames" },
-      { text: "Un canard de ville.", camp: "Carmine" },
-      { text: "Un poisson amnésique.", camp: "Carmine" },
-      { text: "Un raton-laveur kleptomane.", camp: "Siames" }
-    ]
-  },
-  {
-    question: "40. As-tu été attentif ? Quel nombre manquait-il dans ce questionnaire ?",
-    answers: [
-      { text: "18", camp: "Siames" },
-      { text: "40", camp: "Siames" },
-      { text: "Il n'en manquait aucun.", camp: "Carmine" },
-      { text: "Il en manquait bien un, mais ce n'est aucune des propositions.", camp: "Carmine" }
-    ]
-  }
+        question: "1. Face à une trahison, ta réaction serait :",
+        answers: [
+          { text: "Répondre par la force, immédiatement.", camp: "Carmine" },
+          { text: "Attendre le bon moment pour frapper.", camp: "Siames" },
+          { text: "Humilier la personne publiquement.", camp: "Carmine" },
+          { text: "Couper les ponts sans laisser de traces.", camp: "Siames" }
+        ]
+      },
+      {
+        question: "40. As-tu été attentif ? Quel nombre manquait-il dans ce questionnaire ?",
+        answers: [
+          { text: "18", camp: "Siames" },
+          { text: "40", camp: "Siames" },
+          { text: "Il n'en manquait aucun.", camp: "Carmine" },
+          { text: "Il en manquait bien un, mais ce n'est aucune des propositions.", camp: "Carmine" }
+        ]
+      }
     ];
 
     function startQuiz() {
       intro.style.display = "none";
       quiz.style.display = "block";
       showQuestion();
+      updateBar(); // initialise à 50/50
     }
 
     function showQuestion() {
-  const q = questions[currentQuestion];
-  questionEl.textContent = q.question;
-  answersEl.innerHTML = "";
-  selectedAnswer = null;
+      const q = questions[currentQuestion];
+      questionEl.textContent = q.question;
+      answersEl.innerHTML = "";
+      selectedAnswer = null;
 
-  q.answers.forEach((a) => {
-    const btn = document.createElement("div");
-    btn.classList.add("answer");
+      q.answers.forEach((a) => {
+        const btn = document.createElement("div");
+        btn.classList.add("answer");
 
-    // Si une image est définie, on l’ajoute
-    if (a.image) {
-      const img = document.createElement("img");
-      img.src = a.image;
-      img.alt = a.text;
-      img.style.width = "90px";   // taille (modifiable)
-      img.style.marginRight = "10px";
-      btn.appendChild(img);
+        // Image si définie
+        if (a.image) {
+          const img = document.createElement("img");
+          img.src = a.image;
+          img.alt = a.text;
+          img.style.width = "90px";
+          img.style.marginBottom = "10px";
+          btn.appendChild(img);
+        }
+
+        // Texte
+        const span = document.createElement("span");
+        span.textContent = a.text;
+        btn.appendChild(span);
+
+        // Clique
+        btn.onclick = () => selectAnswer(btn, a.camp);
+        answersEl.appendChild(btn);
+      });
     }
-
-    // Texte
-    const span = document.createElement("span");
-    span.textContent = a.text;
-    btn.appendChild(span);
-
-    // Clique
-    btn.onclick = () => selectAnswer(btn, a.camp);
-    answersEl.appendChild(btn);
-  });
-}
-
 
     function selectAnswer(element, camp) {
       const allAnswers = document.querySelectorAll(".answer");
@@ -597,16 +268,13 @@
       const total = carmineScore + siamesScore || 1;
       const carminePercent = (carmineScore / total) * 100;
       const siamesPercent = (siamesScore / total) * 100;
-
       carmineBar.style.width = carminePercent + "%";
       siamesBar.style.width = siamesPercent + "%";
 
-      // Mise à jour des textes
-      document.getElementById("carminePercent").textContent = Math.round(carminePercent) + "%";
-      document.getElementById("siamesPercent").textContent = Math.round(siamesPercent) + "%";
+      // Met à jour les % affichés
+      carminePercentEl.textContent = Math.round(carminePercent) + "%";
+      siamesPercentEl.textContent = Math.round(siamesPercent) + "%";
     }
-
-    
 
     function nextQuestion() {
       if (!selectedAnswer) return alert("Choisis une réponse !");
